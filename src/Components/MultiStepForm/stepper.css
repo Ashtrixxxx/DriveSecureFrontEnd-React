@@ -1,0 +1,19 @@
+/* Container for Stepper and Form */
+.my-div {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Ensure it takes up at least the full viewport height */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Stepper and Form wrapper */
+  .stepper-container {
+    flex: 1; /* Allow the container to grow and shrink */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+  }
+  

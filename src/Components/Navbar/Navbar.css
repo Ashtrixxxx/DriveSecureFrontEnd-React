@@ -1,0 +1,32 @@
+.nav-bar1{
+    margin-top: 50px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+    align-items: end;
+}
+
+h3{
+    font-size:25px ;
+    margin-left: 5%;
+    font-family: 'Cinzel', serif;
+    font-weight: bolder;    
+}
+.ul-list1{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-between;
+    align-items: end;
+    margin-right: 5%;
+}
+
+.ul-list1 li{
+    font-size: 20px;
+    padding-right: 60px;
+    font-family: 'Cabin', sans-serif !important;
+}
+
+.ul-list1 li:hover{
+    color: #479ed8;
+}

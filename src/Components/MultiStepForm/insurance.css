@@ -1,0 +1,106 @@
+/* Disable scrolling */
+body {
+    overflow: hidden;
+  }
+  
+  
+  .form-wrapper {
+  
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9; /* Light background color */
+    }
+    
+    /* Form styles */
+    form {
+      height: fit-content;
+      width: 100%; /* Make sure it takes full width within the container */
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+    
+    /* Input field styles */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    textarea:focus {
+      border-color: #479ed8;
+      outline: none;
+    }
+    
+    /* Label styles */
+    label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    /* Button styles */
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #479ed8;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #357ab6;
+    }
+    
+    /* Textarea styles */
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    /* Error message styles */
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    /* Success message styles */
+    .success {
+      color: green;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      form {
+        padding: 15px;
+      }
+    
+      button {
+        font-size: 14px;
+      }
+    }
+    
