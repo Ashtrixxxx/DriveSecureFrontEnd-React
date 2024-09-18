@@ -1,0 +1,54 @@
+
+h2{
+    color: #479ed8;
+    font-weight: bolder;
+}
+
+.divlist{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 80%;
+    margin-left: 200px;
+}
+
+ul li{
+    font-size: large;
+    color: #479ed8;
+    font-weight: bolder;
+}
+
+.content-container{
+    margin-top: 500px;
+}
+
+.get-quota-design{
+    background-color: #479ed8;
+    width: 80%;
+    height: 150px;
+    padding: 45px;
+}
+
+
+
+.get-quota-design button {
+    width: fit-content;
+
+    background-color: #ffffff; /* White color to contrast with the blue background */
+    color: #479ed8; /* Blue text to complement the div background */
+    padding: 10px 20px; /* Increase padding for a bigger button */
+    border: 2px solid #479ed8; /* Add a border to match the background */
+    border-radius: 25px; /* Rounded corners for a modern look */
+    font-size: 18px; /* Larger font size for readability */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  }
+  
+  .get-quota-design button:hover {
+    background-color: #479ed8; /* Change background color on hover */
+    color: #ffffff; /* White text on hover */
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+  }

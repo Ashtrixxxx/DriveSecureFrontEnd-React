@@ -22,10 +22,15 @@
   font-weight: 700;
 }
 
+.imageee{
+  height: 800px;
+  width: 800px;
+}
+
 #div-my {
   display: flex;
   flex-direction: row;
-  margin-top: 15%;
+  margin-top: 7%;
 }
 
 #para-sec {

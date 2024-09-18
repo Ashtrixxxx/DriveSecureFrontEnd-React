@@ -1,15 +1,21 @@
 import React from 'react'
 import { Navbar } from '../Navbar/Navbar'
 import { Home } from '../Home/Home'
-import { Products } from '../InsurancesAvailable/Insurances'
 import Footer from '../Footer/Footer'
+import { Insurances } from '../InsurancesAvailable/Insurances'
+import Content from '../Home/Content'
+import FlipCards from '../Home/FlipCards'
+import Reviews from '../Home/Reviews'
 
 const HomePage = () => {
   return (
     <div>
       <Navbar/>
       <Home/>
-      <Products/>
+      <Insurances />
+      <Content/>
+      <FlipCards/>
+      <Reviews/>
       <Footer/>
     </div>
   )
