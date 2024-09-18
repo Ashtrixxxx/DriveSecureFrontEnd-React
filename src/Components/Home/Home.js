@@ -2,6 +2,7 @@ import React from "react";
 import "./Home.css";
 import img from "../../Assets/shapes.png";
 import Typical from "react-typical";
+import img1 from "../../Assets/undraw_website_5bo8.png"
 export const Home = () => {
   return (
     <>
@@ -18,18 +19,8 @@ export const Home = () => {
             </h2>
           </div>
         </div>
-        <div id="para-sec" style={{ width: "30%" }}>
-          <p>
-            Laudantium proident saepe provident laborum, congue tempus facilisi.
-            Vivamus ut leo dolorem, corrupti tempus tortor maiores ante,
-            fermentum quibusdam cupiditate laoreet cubilia, harum class, massa
-            ipsa. Quae velit, aliqua architecto auctor, laborum tellus, commodo.
-            Feugiat atque? Tempora aliquip iure adipisci odio amet consequatur
-            accumsan eget dolores, cubilia vero, consequuntur reprehenderit
-            litora dui atque esse aliquam nec. Mollitia, euismod, fames eros.
-            Pulvinar lorem ipsum, pulvinar dis aut. Mus deleniti duis reiciendis
-            purus. Nihil! Faucibus alias nullam class
-          </p>
+        <div id="image" >
+          <img src={img1} className="imageee"/>
         </div>
       </div>
       <center>
@@ -46,16 +37,16 @@ export const Home = () => {
           <h5
             style={{ marginTop: "50px", fontSize: "30px", paddingTop: "50px" }}
           >
-            Our Solutions
+            Why Insurance ?? Watch the video to know more !
           </h5>
         </div>
 
-        <div class="ratio ratio-16x9 my-width">
+        <div class="ratio ratio-16x9 my-width" style={{width:"500px"}}>
           <iframe
             width="1280"
             height="720"
-            src="https://www.youtube.com/embed/xNRJwmlRBNU"
-            title="How To Embed YouTube Videos in React / Gatsby (and make them Responsive)"
+            src="https://www.youtube.com/embed/yh7QbUxOApY"
+            title="Importance of Automobile Insurance"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen

@@ -1,0 +1,32 @@
+.overall-reviews{
+    margin-top: 350px;
+
+
+}
+
+.row{
+    margin-left: 5%;
+    margin-right: 0%;
+    margin-bottom: 40px
+}
+
+img{
+    width: 20%;
+    height: 20%;
+}
+
+.pfp{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.headerpfp{
+    display: flex;
+    flex-direction: row;
+}
+
+.headerpfp h5{
+    margin-top: 20px;
+    margin-left: 5px;
+}

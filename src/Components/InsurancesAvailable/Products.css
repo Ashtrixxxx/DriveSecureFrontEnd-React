@@ -11,6 +11,13 @@
   color: #479ed8;
 }
 
+.card-containers{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 75px;
+}
+ 
 .mycards {
     margin-left: 180px;
   display: flex;
