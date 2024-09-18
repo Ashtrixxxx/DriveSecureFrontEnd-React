@@ -25,7 +25,9 @@ const schema = yup.object({
   registrationDate: yup.date().required("Registration Date is required").max(new Date(), "Date cannot be in the future"),
 }).required();
 
-export default function VehicleDetailsForm({ onSubmit }) {
+export default function VehicleDetailsForm({ onSubmit,type }) {
+  console.log(type.type.VehicleType);
+  
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
@@ -53,6 +55,8 @@ export default function VehicleDetailsForm({ onSubmit }) {
             <MDBInput
               id="vehicleType"
               label="Vehicle Type"
+              value={type.type.VehicleType}
+              readOnly
               {...register("vehicleType")}
               invalid={!!errors.vehicleType}
               validationError={errors.vehicleType?.message}

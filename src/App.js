@@ -11,7 +11,13 @@ import FormPage from "./Components/Pages/FormPage";
 function App() {
   return (
     <div>
-      <FormPage/>
+    <Router>
+
+      <Routes>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/insurance/:VehicleType" element={<FormPage/>}/>
+      </Routes>
+    </Router>
     </div>
   );
 }
