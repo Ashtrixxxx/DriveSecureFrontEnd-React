@@ -12,7 +12,7 @@ import "./stepper.css";
 import SupportDetailsForm from "./SupportDetailsForm";
 const steps = ["Enter Vehicle Details", "Enter Insurance Coverage Details", "Enter Payment Details", "Upload Your Support Documents"];
 
-export default function HorizontalLinearStepper() {
+export default function HorizontalLinearStepper(type) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [vehicleFormData, setVehicleFormData] = React.useState({});
@@ -119,7 +119,7 @@ export default function HorizontalLinearStepper() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {activeStep === 0 && <VehicleDetailsForm onSubmit={handleVehicleFormSubmit} />}
+            {activeStep === 0 && <VehicleDetailsForm onSubmit={handleVehicleFormSubmit} type={type}/>}
             {activeStep === 1 && <InsuranceDetailsForm  onSubmit= {handleInsuranceFormSubmit}/>}
             {activeStep === 2 && <SupportDetailsForm onSubmit={handleSupportFormSubmit} />}
 
