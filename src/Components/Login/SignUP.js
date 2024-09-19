@@ -1,34 +1,60 @@
 import React,{useState} from 'react';
 import './SignUP.css';
 import signUpImage from '../../Assets/Sign Up.png'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
  const SignUP = () => {
+  const nav = useNavigate();
   const [userData,setUserData] = useState({
-    name: '',
-    password: '',
-    profileUrl: '',
-    dob: '',
-    gender: '',
-    phone: '',
-    email: '',
-    occupation: ''
+    FirstName:'',
+    LastName: '',
+    UserName:'',
+    UserPass: '',
+    ProfileUrl: '',
+    DOB: '',
+    Gender: '',
+    Phone: '',
+    Email: '',
+    Occupation: '',
+    role:0
 
   });
+  
 
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
+console.log(e.target.name,e.target.value);
+
     setUserData({ ...userData, [e.target.name]: e.target.value 
+
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     
 
-    if(!userData.name || !userData.email || !userData.password) {
+    if(!userData.FirstName || !userData.Email || !userData.UserPass) {
       setError('Please fill in all required fields.');
       return;
+    }
+    console.log('User Data:', userData);
+
+    try{
+      const response = await axios.post("https://localhost:7063/api/User/CreateUser",userData)
+      console.log(response);
+      toast.success("Signup successful! Please log in.");
+
+      nav("/login")
+
+      
+    }catch(error){
+      console.log(error);
+      
     }
 
     console.log('User Data:', userData);
@@ -37,6 +63,7 @@ import signUpImage from '../../Assets/Sign Up.png'
 
   return (
     <div className="signup-container">
+      <ToastContainer />
       <div className="image-section">
         <img
            src={signUpImage}
@@ -50,11 +77,31 @@ import signUpImage from '../../Assets/Sign Up.png'
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Name</label>
+            <label>First Name</label>
             <input
             type="text"
-            name="name"
-            value={userData.name}
+            name="FirstName"
+            value={userData.FirstName}
+            onChange={handleChange}
+            required
+            />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input
+            type="text"
+            name="LastName"
+            value={userData.LastName}
+            onChange={handleChange}
+            required
+            />
+          </div>
+          <div className="form-group">
+            <label>User Name</label>
+            <input
+            type="text"
+            name="UserName"
+            value={userData.UserName}
             onChange={handleChange}
             required
             />
@@ -63,8 +110,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Password</label>
             <input
             type="password"
-            name="password"
-            value={userData.password}
+            name="UserPass"
+            value={userData.UserPass}
             onChange={handleChange}
             required
             />
@@ -73,8 +120,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Profile URL</label>
             <input
             type="url"
-            name="profileUrl"
-            value={userData.profileUrl}
+            name="ProfileUrl"
+            value={userData.ProfileUrl}
             onChange={handleChange}
             required
             />
@@ -83,8 +130,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>DOB</label>
             <input
             type="date"
-            name="dob"
-            value={userData.dob}
+            name="DOB"
+            value={userData.DOB}
             onChange={handleChange}
             required
             />
@@ -93,8 +140,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Gender</label>
             <input
             type="text"
-            name="gender"
-            value={userData.gender}
+            name="Gender"
+            value={userData.Gender}
             onChange={handleChange}
             required
             />
@@ -103,8 +150,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Phone</label>
             <input
             type="text"
-            name="phone"
-            value={userData.phone}
+            name="Phone"
+            value={userData.Phone}
             onChange={handleChange}
             required
             />
@@ -113,8 +160,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Email</label>
             <input
             type="text"
-            name="email"
-            value={userData.email}
+            name="Email"
+            value={userData.Email}
             onChange={handleChange}
             required
             />
@@ -123,8 +170,8 @@ import signUpImage from '../../Assets/Sign Up.png'
             <label>Occupation</label>
             <input
             type="text"
-            name="occupation"
-            value={userData.occupation}
+            name="Occupation"
+            value={userData.Occupation}
             onChange={handleChange}
             required
             />

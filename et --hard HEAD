@@ -1,0 +1,56 @@
+[33mcommit 6940127fb198dcdf250094872dbcc7f64ee8ba77[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mashwin[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Ashefa <ashefa.j123@gmail.com>
+Date:   Thu Sep 19 20:18:12 2024 +0530
+
+    After adding Signup and login pages
+
+[33mcommit 66567b3973109161fbe511969c636c8634d29e28[m
+Merge: 77cb9c6 3e9fc6f
+Author: ASHWIN <92661001+Ashtrixxxx@users.noreply.github.com>
+Date:   Thu Sep 19 14:27:52 2024 +0530
+
+    Merge pull request #3 from Ashtrixxxx/ashwin
+    
+    Added token expiry
+
+[33mcommit 3e9fc6f4fb5c671b48cc2b949c2196207b914138[m[33m ([m[1;31morigin/ashwin[m[33m)[m
+Author: Ashwin S <ashwin94429@gmail.com>
+Date:   Thu Sep 19 14:27:23 2024 +0530
+
+    Added token expiry
+
+[33mcommit 77cb9c604e7cf2bb50c7fc94b376044521d1d3c0[m
+Merge: f55bdf5 3c0f9c9
+Author: ASHWIN <92661001+Ashtrixxxx@users.noreply.github.com>
+Date:   Wed Sep 18 21:28:58 2024 +0530
+
+    Merge pull request #2 from Ashtrixxxx/ashwin
+    
+    Added ui
+
+[33mcommit 3c0f9c9377f5f50db5addcd09ef6db81775f7a18[m
+Author: Ashwin S <ashwin94429@gmail.com>
+Date:   Wed Sep 18 21:28:22 2024 +0530
+
+    Added ui
+
+[33mcommit f55bdf5e2df66090a55c81ac6c4307a6d9ad94c2[m
+Merge: fd915b1 3827587
+Author: ASHWIN <92661001+Ashtrixxxx@users.noreply.github.com>
+Date:   Wed Sep 18 18:12:31 2024 +0530
+
+    Merge pull request #1 from Ashtrixxxx/ashwin
+    
+    Added Some routers
+
+[33mcommit 3827587a14880bf6e7c81f0060e57a8a44226d4d[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Ashwin S <ashwin94429@gmail.com>
+Date:   Wed Sep 18 18:11:43 2024 +0530
+
+    Added Some routers
+
+[33mcommit fd915b1ec51363a3273a1223626b0d461a7f3cd4[m
+Author: Ashwin S <ashwin94429@gmail.com>
+Date:   Mon Sep 16 12:47:06 2024 +0530
+
+    first
