@@ -7,7 +7,7 @@ export const Navbar = () => {
 
   
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('Auth-Token');
     if (token) {
       setDisplayLogin(false);
     } else {
@@ -32,7 +32,7 @@ export const Navbar = () => {
               <Link to="/login">
                 <button className="btn">Login</button>
               </Link>
-              <Link to="/signup">
+              <Link to="/Signup">
                 <button className="btn">Sign Up</button>
               </Link>
             </div>

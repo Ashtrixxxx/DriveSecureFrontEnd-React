@@ -10,16 +10,19 @@ import HomePage from "./Components/Pages/HomePage";
 import FormPage from "./Components/Pages/FormPage";
 import Login from "./Components/Login/Login";
 import SignUP from "./Components/Login/SignUP";
-
+import axios from "axios";
+axios.defaults.baseURL = "http://localhost:7063";
+axios.defaults.withCredentials = true;
 function App() {
 
   return (
     <div>
-      <Login/>
-      <SignUP/>
+      
     <Router>
 
       <Routes>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/Signup" element={<SignUP />}/>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/insurance/:VehicleType" element={<FormPage/>}/>
       </Routes>

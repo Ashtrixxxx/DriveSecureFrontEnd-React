@@ -14,11 +14,29 @@
     padding: 20px;
 }
 .login-image {
-    width: 100%; 
+    width: 70%; 
     height: auto; 
     object-fit: cover; 
     max-height: 100%; 
 }
+
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #479ed8;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    animation: fadeOut 2s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  
 
 h2 {
     color: #479ed8;
