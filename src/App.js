@@ -8,11 +8,15 @@ import { Products } from "./Components/InsurancesAvailable/Insurances";
 import Footer from "./Components/Footer/Footer";
 import HomePage from "./Components/Pages/HomePage";
 import FormPage from "./Components/Pages/FormPage";
+import Login from "./Components/Login/Login";
+import SignUP from "./Components/Login/SignUP";
 
 function App() {
 
   return (
     <div>
+      <Login/>
+      <SignUP/>
     <Router>
 
       <Routes>
