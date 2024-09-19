@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
+  const [displayLogin, setDisplayLogin] = useState(false);
+
+  
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      setDisplayLogin(false);
+    } else {
+      setDisplayLogin(true); 
+    }
+  }, []); 
+
   return (
     <div>
       <nav className="nav-bar1">
@@ -15,10 +27,16 @@ export const Navbar = () => {
           <li>Services</li>
           <li>Products</li>
           <li>Support</li>
-          <div className="btndiv">
-            <button className="btn">Login</button>
-            <button className="btn">SignUp</button>
-          </div>
+          {displayLogin && (
+            <div className="btndiv">
+              <Link to="/login">
+                <button className="btn">Login</button>
+              </Link>
+              <Link to="/signup">
+                <button className="btn">Sign Up</button>
+              </Link>
+            </div>
+          )}
         </ul>
       </nav>
     </div>
