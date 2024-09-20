@@ -67,11 +67,7 @@ const Content = () => {
           </p>
         </ul>
         </div>
-        <center>
-        <div className="get-quota-design">
-<button>Get a Quota Right now !!</button>
-        </div>
-        </center>
+        
       </div>
     </div>
   );

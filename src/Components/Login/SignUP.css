@@ -27,7 +27,8 @@ h2 {
     margin-bottom: 20px;
 }
 
-.form-section {
+.signup-form-section {
+    
     flex: 1;
     padding: 20px;
     max-width: 450px;

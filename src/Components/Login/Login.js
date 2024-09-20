@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./Login.css";
-import loginImage from "../../Assets/login.png";
+import loginImage from "../../Assets/Computer login-rafiki.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
+
 const Login = () => {
   const nav = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
@@ -54,17 +56,15 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-        <center>
-      {showAlert && (
-        <div className="custom-alert">Welcome {userName}</div>
-      )}
+    <MDBContainer  >
+    <MDBRow className="login-container">
+      <center>
+        {showAlert && <div className="custom-alert">Welcome {userName}</div>}
       </center>
-
-      <div className="image-section">
+      <MDBCol md="6" className="image-section">
         <img src={loginImage} alt="Login Visual" className="login-image" />
-      </div>
-      <div className="form-section">
+      </MDBCol>
+      <MDBCol md="6" className="form-section">
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
@@ -92,8 +92,9 @@ const Login = () => {
             Login
           </button>
         </form>
-      </div>
-    </div>
+      </MDBCol>
+    </MDBRow>
+  </MDBContainer>
   );
 };
 

@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import './SignUP.css';
-import signUpImage from '../../Assets/Sign Up.png'
+import signUpImage from '../../Assets/Sign up-rafiki.png'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -72,7 +72,7 @@ console.log(e.target.name,e.target.value);
            />
       </div>
 
-      <div className="form-section">
+      <div className="signup-form-section">
         <h2>Sign Up</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
