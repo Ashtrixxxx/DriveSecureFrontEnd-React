@@ -14,6 +14,7 @@ import axios from "axios";
 import { DisplayInsurances } from "./Components/user/InsurancePages/DisplayInsurances";
 import { DetailedInsurance } from "./Components/user/InsurancePages/DetailedInsurance";
 import { FilteredInsurance } from "./Components/user/InsurancePages/FilteredInsurance";
+import NotAuthorizedPages from "./Components/Pages/NotAuthorizedPages";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/user/DisplayInsurances" element={<DisplayInsurances/>}/>
         <Route path="/user/InsuranceDetails" element={<DetailedInsurance/>}/>
         <Route path="/user/FilteredList/:no" element={<FilteredInsurance />}/>
+        <Route path="/not-authorized" element={<NotAuthorizedPages/>}/>
       </Routes>
     </Router>
     </div>
