@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import './SignUP.css';
 import signUpImage from '../../Assets/Sign up-rafiki.png'
 import axios from 'axios';
+import { MDBContainer,MDBRow,MDBCol,MDBInput,MDBBtn,MDBCard,MDBCardBody } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -62,124 +63,143 @@ console.log(e.target.name,e.target.value);
   };
 
   return (
-    <div className="signup-container">
+    <MDBContainer fluid className="signup-container">
       <ToastContainer />
-      <div className="image-section">
-        <img
-           src={signUpImage}
-           alt="Sign Up Visual"
-           className="signup-image"
-           />
-      </div>
+      <MDBRow>
+        <MDBCol md="6" className="d-flex-align-items-center">
+          <img 
+          src={signUpImage} 
+          alt="Sign Up Visual"
+          className="signup-image"
+          />
+        </MDBCol>
 
-      <div className="signup-form-section">
-        <h2>Sign Up</h2>
-        {error && <p className="error-message">{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>First Name</label>
-            <input
-            type="text"
-            name="FirstName"
-            value={userData.FirstName}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-            type="text"
-            name="LastName"
-            value={userData.LastName}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>User Name</label>
-            <input
-            type="text"
-            name="UserName"
-            value={userData.UserName}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-            type="password"
-            name="UserPass"
-            value={userData.UserPass}
-            onChange={handleChange}
-            required
-            />
-            </div>
-          <div className="form-group">
-            <label>Profile URL</label>
-            <input
-            type="url"
-            name="ProfileUrl"
-            value={userData.ProfileUrl}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>DOB</label>
-            <input
-            type="date"
-            name="DOB"
-            value={userData.DOB}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Gender</label>
-            <input
-            type="text"
-            name="Gender"
-            value={userData.Gender}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-            type="text"
-            name="Phone"
-            value={userData.Phone}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-            type="text"
-            name="Email"
-            value={userData.Email}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <div className="form-group">
-            <label>Occupation</label>
-            <input
-            type="text"
-            name="Occupation"
-            value={userData.Occupation}
-            onChange={handleChange}
-            required
-            />
-          </div>
-          <button type="submit" className="signup-button">Sign Up</button>
-        </form>
-      </div>
-    </div>
+        <MDBCol md="6" lg="5">
+          <MDBCard className="signup-form">
+          <MDBCardBody>
+          <h3 className="text-center mb-4">Sign Up</h3>
+          {error && <p className="text-danger">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <MDBRow>
+              <MDBCol md="6" >
+                <MDBInput
+                 label="First Name"
+                 name="FirstName"
+                 value={userData.FirstName}
+                 onChange={handleChange}
+                 required
+                 className="mb-4"
+                 />
+              </MDBCol>
+              <MDBCol md="6">
+                <MDBInput
+                 label="Last Name"
+                 name="LastName"
+                 value={userData.LastName}
+                 onChange={handleChange}
+                 required
+                 className="mb-4"
+                 />
+              </MDBCol>
+           </MDBRow>
+           <MDBRow>
+           <MDBCol md="6">
+                <MDBInput
+                 label="User Name"
+                 name="UserName"
+                 value={userData.UserName}
+                 onChange={handleChange}
+                 required
+                 className="mb-4"
+                 />
+            </MDBCol>
+            <MDBCol md="6">
+                 <MDBInput
+                 type="password"
+                 label="Password"
+                 name="UserPass"
+                 value={userData.UserPass}
+                 onChange={handleChange}
+                 required
+                 className="mb-4"
+                 />
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol md="6">
+                 <MDBInput
+                 label=" Profile URL"
+                 name="ProfileUrl"
+                 value={userData.ProfileUrl}
+                 onChange={handleChange}
+                 required
+                 className="mb-4"
+                 />
+             </MDBCol>
+             <MDBCol md="6">
+                  <MDBInput
+                   label="Date of Birth"
+                   type="date"
+                   name="DOB"
+                   value={userData.DOB}
+                   onChange={handleChange}
+                   required
+                   className="mb-4"
+                   />
+              </MDBCol>
+              </MDBRow>
+              <MDBRow>
+                  <MDBCol md="6">
+                  <MDBInput
+                   label="Gender"
+                   name="Gender"
+                   value={userData.Gender}
+                   onChange={handleChange}
+                   required
+                   className="mb-4"
+                   />
+                  </MDBCol>
+                  <MDBCol md="6">
+                  <MDBInput
+                   label="Phone"
+                   name="Phone"
+                   value={userData.Phone}
+                   onChange={handleChange}
+                   required
+                   className="mb-4"
+                   />
+              </MDBCol>
+           </MDBRow>
+                <MDBRow>
+                  
+                  <MDBCol md="6">
+                  <MDBInput
+                   label="Email"
+                   name="Email"
+                   value={userData.Email}
+                   onChange={handleChange}
+                   required
+                   className="mb-4"
+                   />
+                  </MDBCol>
+                <MDBCol md="6">
+                <MDBInput
+                label="Occupation"
+                name="Occupation"
+                value={userData.Occupation}
+                onChange={handleChange}
+                required
+                className="mb-4"
+                />
+                </MDBCol>
+                </MDBRow>
+                <MDBBtn type="submit" className="w-100 mb-4">Sign Up</MDBBtn>
+                </form>
+                </MDBCardBody>
+              </MDBCard>
+            </MDBCol>
+          </MDBRow>
+    </MDBContainer>
   );
 };
 
