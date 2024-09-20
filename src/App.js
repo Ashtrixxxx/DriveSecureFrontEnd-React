@@ -11,6 +11,7 @@ import FormPage from "./Components/Pages/FormPage";
 import Login from "./Components/Login/Login";
 import SignUP from "./Components/Login/SignUP";
 import axios from "axios";
+import { SideNav } from "./Components/Navbar/SideNav";
 import { DisplayInsurances } from "./Components/user/InsurancePages/DisplayInsurances";
 import { DetailedInsurance } from "./Components/user/InsurancePages/DetailedInsurance";
 import { FilteredInsurance } from "./Components/user/InsurancePages/FilteredInsurance";
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div>
-      
+      <SideNav/>
     <Router>
 
       <Routes>
