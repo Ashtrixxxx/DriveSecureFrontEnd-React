@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navbar } from "../Navbar/Navbar";
 import { Home } from "../Home/Home";
 import Footer from "../Footer/Footer";
@@ -10,13 +10,21 @@ import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import "../Login/Login.css"
+import "../Login/Login.css";
+import GetQuotaButton from "../Home/GetQuotaButton";
 const HomePage = () => {
   const [showAlert, setShowAlert] = useState(false);
-const nav = useNavigate();
+  const nav = useNavigate();
   const token = localStorage.getItem("Auth-Token");
   const navigate = useNavigate();
   console.log(token);
+  const sectionRef = useRef(null);
+
+  const scrollToSection = () => {
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     if (token) {
@@ -31,14 +39,14 @@ const nav = useNavigate();
 
         setShowAlert(true);
 
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 5000);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
 
-      // Redirect user to login page
-      setTimeout(() => {
-        nav("/login");
-      }, 5000);
+        // Redirect user to login page
+        setTimeout(() => {
+          nav("/login");
+        }, 5000);
         // Redirect user to login page
       } else {
         console.log("Token is still valid");
@@ -53,16 +61,22 @@ const nav = useNavigate();
   return (
     <div>
       <center>
-       {showAlert && (
-        <div className="custom-alert">Session Expired</div>
-      )}
+        {showAlert && <div className="custom-alert">Session Expired</div>}
       </center>
       <Navbar />
       <ToastContainer />
       <Home />
-      <Insurances />
+      <div ref={sectionRef}>
+        <Insurances />
+      </div>
       <Content />
+
       <FlipCards />
+      <center>
+        <div className="get-quota-design">
+          <button onClick={scrollToSection}>Get a Quota Right now !!</button>
+        </div>
+      </center>
       <Reviews />
       <Footer />
     </div>
