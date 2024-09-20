@@ -40,7 +40,7 @@ export const Insurances = () => {
             <CCardImage
               orientation="top"
               src={pro1}
-              style={{ width: "250px", height: "250px" }}
+              style={{ width: "398px", height: "250px" }}
             />
             <CCardBody>
               <CCardTitle>Bike Insurance</CCardTitle>
@@ -67,7 +67,7 @@ export const Insurances = () => {
                 nav("/insurance/Car");
               }}
             >
-              <CCardImage orientation="top" src={pro2} />
+              <CCardImage orientation="top" src={pro2}  style={{height:"250px"}}/>
               <CCardBody>
                 <CCardTitle>Car Insurance</CCardTitle>
                 <CCardText>
@@ -98,7 +98,7 @@ export const Insurances = () => {
                 nav("/insurance/Truck");
               }}
             >
-              <CCardImage orientation="top" src={pro3} />
+              <CCardImage orientation="top" src={pro3} style={{height:"250px"}}/>
               <CCardBody>
                 <CCardTitle>Truck Insurance</CCardTitle>
                 <CCardText>

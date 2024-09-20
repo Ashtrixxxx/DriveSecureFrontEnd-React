@@ -70,7 +70,6 @@ const HomePage = () => {
         <Insurances />
       </div>
       <Content />
-
       <FlipCards />
       <center>
         <div className="get-quota-design">
