@@ -22,14 +22,10 @@ export const DisplayInsurances = () => {
   }
 
   useEffect(() => {
-    if (!token) {
-      console.log("Token Not available");
-      nav("/");
-      return;
-    }
+    
 
     const fetchInsurances = async () => {
-      if (!UserId) return;
+   
       try {
         const response = await axios.get(
           `https://localhost:7063/api/Policy/GetAllPolicies/${UserId}`,
@@ -42,6 +38,12 @@ export const DisplayInsurances = () => {
         console.log(response.data);
         setInsuranceData(response.data);
       } catch (error) {
+        if (error.response && (error.response.status === 400 || error.response.status === 401)) {
+          // If the error is 400 or 401, navigate to 'Not Authorized' page
+          nav("/not-authorized"); 
+        } else {
+          console.log("An error occurred", error);
+        }
         console.log(error);
       }
     };

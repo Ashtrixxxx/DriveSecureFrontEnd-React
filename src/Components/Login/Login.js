@@ -48,6 +48,12 @@ const Login = () => {
       const userId = decodedToken.nameid;
       console.log(userId);
     } catch (error) {
+      if (error.response && (error.response.status === 400 || error.response.status === 401)) {
+        // If the error is 400 or 401, navigate to 'Not Authorized' page
+        nav("/not-authorized"); 
+      } else {
+        console.log("An error occurred", error);
+      }
       console.error("Error:", error);
     }
     console.log("UserName:", userName);
