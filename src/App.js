@@ -11,7 +11,9 @@ import FormPage from "./Components/Pages/FormPage";
 import Login from "./Components/Login/Login";
 import SignUP from "./Components/Login/SignUP";
 import axios from "axios";
-import { DisplayInsurances } from "./Components/user/pages/DisplayInsurances";
+import { DisplayInsurances } from "./Components/user/InsurancePages/DisplayInsurances";
+import { DetailedInsurance } from "./Components/user/InsurancePages/DetailedInsurance";
+import { FilteredInsurance } from "./Components/user/InsurancePages/FilteredInsurance";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -27,6 +29,8 @@ function App() {
         <Route path="/" element={<HomePage/>}/>
         <Route path="/insurance/:VehicleType" element={<FormPage/>}/>
         <Route path="/user/DisplayInsurances" element={<DisplayInsurances/>}/>
+        <Route path="/user/InsuranceDetails" element={<DetailedInsurance/>}/>
+        <Route path="/user/FilteredList/:no" element={<FilteredInsurance />}/>
       </Routes>
     </Router>
     </div>
