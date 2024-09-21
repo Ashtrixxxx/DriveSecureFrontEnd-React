@@ -3,10 +3,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height:100%; 
     padding: 0; 
   }
   
+
+  .signup-form-image-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
   h3 {
     color: #479ed8;
     margin-bottom: 20px;
@@ -26,6 +34,7 @@
   }
   
   .signup-form {
+    margin-top: 150px;
     width: 100%;
     padding: 2px; 
   }

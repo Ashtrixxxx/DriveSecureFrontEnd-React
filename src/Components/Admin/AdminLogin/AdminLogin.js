@@ -1,32 +1,32 @@
 import React, { useState } from "react";
-import "./Login.css";
-import loginImage from "../../Assets/Computer login-rafiki.png";
+import "../../Login/Login.css";
+//import loginImage from "../../Assets/Computer login-rafiki.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
 
-const Login = () => {
+const AdminLogin = () => {
   const nav = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [AdminEmail, setAdminEmail] = useState("");
+  const [AdminPass, setAdminPass] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!userName || !password) {
+    if (!AdminEmail || !AdminPass) {
       setError("Please fill in both the fields");
       return;
     }
     try {
       const response = await axios.post(
-        "https://localhost:7063/api/Auth/UserAuth",
+        "https://localhost:7063/api/Auth/AdminAuth",
         {
-          UserName: userName,
-          UserPass: password,
+          AdminEmail: AdminEmail,
+          AdminPass: AdminPass,
         }
       );
       console.log(response.data);
@@ -38,25 +38,27 @@ const Login = () => {
 
       // Redirect user to login page
       setTimeout(() => {
-        nav("/");
+        nav("dashboard");
       }, 2000);
       const token = response.data.token;
-      localStorage.setItem("Auth-Token", token);
-      console.log(localStorage.getItem("Auth-Token"));
+      localStorage.setItem("Admin-Token", token);
+      console.log(localStorage.getItem("Admin-Token"));
 
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.nameid;
       console.log(userId);
     } catch (error) {
-      if (error.response && (error.response.status === 400 || error.response.status === 401)) {
-        nav("/not-authorized"); 
-      } else {
-        console.log("An error occurred", error);
-      }
+        if (error.response) {
+            // Log the server's validation errors
+            console.log('Validation Errors:', error.response.data.errors);
+          } else {
+            // Log any other type of error
+            console.error('Error:', error.message);
+          }
       console.error("Error:", error);
     }
-    console.log("UserName:", userName);
-    console.log("Password:", password);
+    // console.log("UserName:", userName);
+    // console.log("Password:", password);
     setError("");
   };
 
@@ -64,22 +66,22 @@ const Login = () => {
     <MDBContainer  >
     <MDBRow className="login-container">
       <center>
-        {showAlert && <div className="custom-alert">Welcome {userName}</div>}
+        {showAlert && <div className="custom-alert">Welcome {AdminEmail}</div>}
       </center>
       <MDBCol md="6" className="image-section">
-        <img src={loginImage} alt="Login Visual" className="login-image" />
+        <img  alt="Login Visual" className="login-image" />
       </MDBCol>
       <MDBCol md="6" className="form-section">
         <h2>Login</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>User Name</label>
+            <label>Email</label>
             <input
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="Enter your UserName"
+              type="email"
+              value={AdminEmail}
+              onChange={(e) => setAdminEmail(e.target.value)}
+              placeholder="Enter your Email"
               required
             />
           </div>
@@ -87,8 +89,8 @@ const Login = () => {
             <label>Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={AdminPass}
+              onChange={(e) => setAdminPass(e.target.value)}
               placeholder="Enter your password"
               required
             />
@@ -103,4 +105,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
