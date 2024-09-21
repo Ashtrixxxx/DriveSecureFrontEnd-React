@@ -4,23 +4,50 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import axios from "axios";
+
 export const Navbar = () => {
   const [displayLogin, setDisplayLogin] = useState(false);
   const [displayLogOut, setDisplayLogout] = useState(false);
   const [username, setUsername] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false); // State for dropdown visibility
-const nav = useNavigate();
+  const [userData, setUserData] = useState([]);
+  const nav = useNavigate();
+  console.log(userData);
   useEffect(() => {
     const token = localStorage.getItem("Auth-Token");
     if (token) {
       const decodedToken = jwtDecode(token);
       setUsername(decodedToken.sub);
+
+      const fetchData = async () => {
+        try {
+          // Wait until username is set
+          if (username) {
+            const response = await axios.get(
+              `https://localhost:7063/api/User/GetUserByUserName/${username}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            setUserData(response.data); // Access response data
+            console.log(response.data);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchData();
       setDisplayLogin(false);
       setDisplayLogout(true);
     } else {
       setDisplayLogin(true);
     }
-  }, []);
+  }, [username]); // Dependency array to rerun effect when username changes
 
   const toggleDropdown = () => {
     console.log(isDropdownVisible);
@@ -28,13 +55,12 @@ const nav = useNavigate();
     setDropdownVisible(!isDropdownVisible); // Toggle dropdown visibility
   };
 
-  const handleLogOut=()=>{
+  const handleLogOut = () => {
     localStorage.removeItem("Auth-Token");
     console.log("Token not valid anymore ");
     nav("/");
     window.location.reload();
-
-  }
+  };
 
   return (
     <div>
@@ -59,28 +85,39 @@ const nav = useNavigate();
             </div>
           )}
           {displayLogOut && (
-            <div class="dropdown show">
-              <a
-                class="btn btn-secondary dropdown-toggle"
-                href="#"
+            <div className="dropdown show">
+              <img
+                src="https://drive.google.com/file/d/1u_6ZN7FIHETZJgCdJio6xm5DDsu9IaS5/preview"
+                alt="Profile"
+                className="btn dropdown-toggle"
                 role="button"
                 id="dropdownMenuLink"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-              >
-                {username}
-              </a>
+                style={{
+                  cursor: "pointer",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                }}
+              />
+              {console.log(userData.profileUrl)}
 
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">
-                  DashBoard
-                </a>
-                <a class="dropdown-item" onClick={handleLogOut}>
-                  LogOut
-                </a>
-                
-              </div>
+              {userData.profileUrl && (
+                <div
+                  className="dropdown-menu"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <a className="dropdown-item">{username}</a>
+                  <Link to="/user/dashboard" className="dropdown-item">
+                    DashBoard
+                  </Link>
+                  <a className="dropdown-item" onClick={handleLogOut}>
+                    LogOut
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </ul>

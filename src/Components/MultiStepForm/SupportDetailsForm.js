@@ -6,8 +6,8 @@ import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
 // Define validation schema using yup
 const schema = yup.object({
-  addressProof: yup.string().required("Address Proof is required"),
-  rcProof: yup.string().required("RC Proof is required"),
+  addressProof: yup.mixed().required("Address Proof is required"),
+  rcProof: yup.mixed().required("RC Proof is required"),
 }).required();
 
 const SupportDetailsForm = ({ onSubmit }) => {
@@ -30,10 +30,12 @@ const SupportDetailsForm = ({ onSubmit }) => {
             <MDBInput
               id="addressProof"
               label="Address Proof"
+              type="file" // Change input type to file
               {...register("addressProof")}
               invalid={!!errors.addressProof}
               validationError={errors.addressProof?.message}
             />
+            
           </MDBCol>
         </MDBRow>
 
@@ -42,6 +44,7 @@ const SupportDetailsForm = ({ onSubmit }) => {
             <MDBInput
               id="rcProof"
               label="RC Proof"
+              type="file" // Change input type to file
               {...register("rcProof")}
               invalid={!!errors.rcProof}
               validationError={errors.rcProof?.message}

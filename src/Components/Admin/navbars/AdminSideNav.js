@@ -10,7 +10,7 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 
-export const SideNav = () => {
+export const AdminSideNav = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleSideNav = () => {
@@ -66,23 +66,16 @@ export const SideNav = () => {
             <MDBNavbarNav>
               <MDBNavbarItem>
                 <MDBNavbarLink
-                  href="/user/dashboard"
+                  href="/admin/dashboard"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
                   <MDBIcon fas icon="tachometer-alt" /> Dashboard
                 </MDBNavbarLink>
               </MDBNavbarItem>
+              
               <MDBNavbarItem>
                 <MDBNavbarLink
-                  href="/user/DisplayVehicle"
-                  style={{ color: "#fff", marginLeft: "15px" }}
-                >
-                  <MDBIcon fas icon="car" /> Vehicles
-                </MDBNavbarLink>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink
-                  href="/user/DisplayInsurances"
+                  href="/admin/dashboard/Insurances"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
                   <MDBIcon fas icon="file-alt" /> Policies
@@ -96,14 +89,7 @@ export const SideNav = () => {
                   <MDBIcon fas icon="file-signature" /> Claims
                 </MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink
-                  href="/profile"
-                  style={{ color: "#fff", marginLeft: "15px" }}
-                >
-                  <MDBIcon fas icon="user" /> Profile
-                </MDBNavbarLink>
-              </MDBNavbarItem>
+              
             </MDBNavbarNav>
             <div
               style={{ position: "absolute", bottom: "20px", width: "100%" }}
@@ -112,8 +98,8 @@ export const SideNav = () => {
                 color="danger"
                 block
                 onClick={() => {
-                  localStorage.removeItem("Auth-Token");
-                  window.location.href = "/login";
+                  localStorage.removeItem("Admin-Token");
+                  window.location.href = "/admin";
                 }}
               >
                 <MDBIcon fas icon="sign-out-alt" /> Logout

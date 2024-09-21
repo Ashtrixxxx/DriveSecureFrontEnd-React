@@ -2,25 +2,27 @@ import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FilterInsurance } from "./FilterInsurance";
 import { SideNav } from "../../Navbar/SideNav";
-import "./DisplayInsurances.css"
-export const DisplayInsurances = () => {
+import "../../user/InsurancePages/DisplayInsurances.css"
+import { FilterInsurance } from "../../user/InsurancePages/FilterInsurance";
+export const AdminInsurances = () => {
+    console.log("hi");
+    const [showFilter, setShowFilter] = useState(false);
+    const filterSubmit = (data) => {
+        setInsuranceData((prev) => [...prev, data]);
+      };
   const [insuranceData, setInsuranceData] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
 
-  const token = localStorage.getItem("Auth-Token");
+  const token = localStorage.getItem("Admin-Token");
   const nav = useNavigate();
 
-  const filterSubmit = (data) => {
-    setInsuranceData((prev) => [...prev, data]);
-  };
+//   const filterSubmit = (data) => {
+//     setInsuranceData((prev) => [...prev, data]);
+//   };
 
-  let UserId = null;
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    UserId = decodedToken.nameid;
-  }
+
+  
+console.log(token);
 
   useEffect(() => {
     
@@ -29,7 +31,7 @@ export const DisplayInsurances = () => {
    
       try {
         const response = await axios.get(
-          `https://localhost:7063/api/Policy/GetAllPolicies/${UserId}`,
+          `https://localhost:7063/api/Policy/GetAllPoliciesForAdmin`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -83,7 +85,7 @@ export const DisplayInsurances = () => {
               <a
                 className="btn btn-primary"
                 onClick={() => {
-                  nav("/user/InsuranceDetails", { state: { insurance: item } });
+                  nav("/admin/dashboard/DetailedPolicy", { state: { insurance: item } });
                 }}
               >
                 Show Details
