@@ -13,13 +13,13 @@ export const Navbar = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false); // State for dropdown visibility
   const [userData, setUserData] = useState([]);
   const nav = useNavigate();
-  console.log(userData);
   useEffect(() => {
     const token = localStorage.getItem("Auth-Token");
     if (token) {
       const decodedToken = jwtDecode(token);
       setUsername(decodedToken.sub);
-
+      console.log(decodedToken.sub);
+      
       const fetchData = async () => {
         try {
           // Wait until username is set
@@ -47,7 +47,7 @@ export const Navbar = () => {
     } else {
       setDisplayLogin(true);
     }
-  }, [username]); // Dependency array to rerun effect when username changes
+  }, []); // Dependency array to rerun effect when username changes
 
   const toggleDropdown = () => {
     console.log(isDropdownVisible);
@@ -97,9 +97,8 @@ export const Navbar = () => {
                 {username}
               </a>
               
-              {console.log(userData.profileUrl)}
 
-              {userData.profileUrl && (
+              
                 <div
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuLink"
@@ -111,7 +110,7 @@ export const Navbar = () => {
                     LogOut
                   </a>
                 </div>
-              )}
+              
             </div>
           )}
         </ul>

@@ -60,7 +60,7 @@ const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Chan
       // Handle the response (e.g., store the file link)
       console.log(response.data); // This will contain the file link
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.log("Error uploading file:", error);
     }
   };
 

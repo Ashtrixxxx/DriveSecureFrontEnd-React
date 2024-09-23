@@ -13,9 +13,9 @@ import {
   CCardLink,
 } from "@coreui/react";
 import img from "../../Assets/shapes.png";
-import pro1 from "../../Assets/Bike.jpg";
-import pro2 from "../../Assets/CarImage.jpeg";
-import pro3 from "../../Assets/Truck.jpg";
+import pro1 from "../../Assets/bike2.png";
+import pro2 from "../../Assets/car2.jpg";
+import pro3 from "../../Assets/truck.png";
 import { Link, useNavigate } from "react-router-dom";
 export const Insurances = () => {
   const nav = useNavigate();
