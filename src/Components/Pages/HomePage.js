@@ -11,7 +11,6 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
-import GetQuotaButton from "../Home/GetQuotaButton";
 const HomePage = () => {
   const [showAlert, setShowAlert] = useState(false);
   const nav = useNavigate();
@@ -65,17 +64,19 @@ const HomePage = () => {
       </center>
       <Navbar />
       <ToastContainer />
-      <Home />
-      <div ref={sectionRef}>
-        <Insurances />
-      </div>
-      <Content />
-      <FlipCards />
       <center>
         <div className="get-quota-design">
           <button onClick={scrollToSection}>Get a Quota Right now !!</button>
         </div>
       </center>
+      <Home />
+      
+      <div ref={sectionRef}>
+        <Insurances />
+      </div>
+      <Content />
+      <FlipCards />
+      
       <Reviews />
       <Footer />
     </div>
