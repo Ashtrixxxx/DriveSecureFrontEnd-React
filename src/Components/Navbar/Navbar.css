@@ -14,6 +14,36 @@
   }
 
  
+  .iframe-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+
   .btn{
     background-color: #479ed8;
     margin-right: 10px; /* Adds space between the two buttons */

@@ -1,56 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  CardElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import axios from "axios";
+import "./PaymentDetails.css"
+import { useNavigate } from "react-router-dom";
+// Load your Stripe publishable key
+const stripePromise = loadStripe(
+  "pk_test_51NMZV9SHrtHmWHnMzKN5XqHLYU5toN8BRmxrzHDV0bWq0dkW6av4nLXaOEEDVrLj1ugU1IXVi1BdiOcNVebL2vbH009nGIs1xp"
+); // Replace with your Stripe public key
 
-// Define validation schema using yup
-const schema = yup
-  .object({
-    premiumAmount: yup
-      .number()
-      .required("Premium Amount is required")
-      .positive(),
-    paymentDate: yup
-      .date()
-      .required("Payment Date is required")
-      .max(new Date(), "Payment Date cannot be in the future"),
-    paymentMethod: yup
-      .string()
-      .required("Payment Method is required")
-      .max(50, "Payment Method can't exceed 50 characters"),
-  })
-  .required();
-
-export default function PaymentDetailsForm({ onSubmit, insurance, vehicle }) {
-  // Initialize react-hook-form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue, // To programmatically set values if needed
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
+function PaymentDetails({ insurance, vehicle }) {
   const [amount, setAmount] = useState(0);
+  const [paymentDate, setPaymentDate] = useState("");
+  const [clientSecret, setClientSecret] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Handle form submission
-  const onFormSubmit = (data) => {
-    if (!insurance || !vehicle) {
-      alert("Please complete the necessary details before making a payment.");
-      return;
-    }
-    console.log(data);
-    onSubmit(data); // Pass form data to parent component
-  };
-
+  const stripe = useStripe();
+  const elements = useElements();
+  const nav = useNavigate();
   useEffect(() => {
-    console.log(insurance+""+ vehicle);
-    
     if (insurance && vehicle) {
       const amt = calculateAmount(insurance, vehicle);
       setAmount(amt);
+
+      // Set payment date to today's date
+      const today = new Date();
+      const formattedDate = today.toISOString().split("T")[0]; // Format date as yyyy-mm-dd
+      setPaymentDate(formattedDate);
+
+      // Create payment intent
+      createPaymentIntent(amt);
     }
   }, [insurance, vehicle]);
 
@@ -68,13 +53,13 @@ export default function PaymentDetailsForm({ onSubmit, insurance, vehicle }) {
       Math.ceil((end - start) / (1000 * 60 * 60 * 24))
     );
 
-    let seatModifier = v.numberOfSeats > 5 ? 1.2 : 1.0; // Extra cost for larger vehicles
-    let serviceHistoryModifier = v.serviceHistory === "good" ? 0.9 : 1.1; // Discount for good history
-    let ownerModifier = v.numberOfPreviousOwners > 1 ? 1.15 : 1.0; // Extra cost for multiple owners
+    let seatModifier = v.numberOfSeats > 5 ? 1.2 : 1.0;
+    let serviceHistoryModifier = v.serviceHistory === "good" ? 0.9 : 1.1;
+    let ownerModifier = v.numberOfPreviousOwners > 1 ? 1.15 : 1.0;
 
-    const baseVehicleValue = v.listPrice; // Corrected variable name
+    const baseVehicleValue = v.listPrice;
     let baseInsuranceAmount =
-      baseVehicleValue * (coverageRates[i.coverageType] || 0.01); // Default to third party rate
+      baseVehicleValue * (coverageRates[i.coverageType] || 0.01);
 
     let totalInsuranceAmount =
       baseInsuranceAmount *
@@ -83,53 +68,120 @@ export default function PaymentDetailsForm({ onSubmit, insurance, vehicle }) {
       ownerModifier *
       (coverageDuration / 365);
 
-    return totalInsuranceAmount.toFixed(2);
+    return (totalInsuranceAmount * 100).toFixed(0); // Return amount in cents for Stripe
   };
 
-  const isEmpty = (obj) => obj && Object.keys(obj).length === 0;
+  const createPaymentIntent = async (amt) => {
+    try {
+      console.log(amt.type); // Log the amount
 
-  if (insurance == null || vehicle == null || isEmpty(insurance) || isEmpty(vehicle)) {
-    return <h1>Fill in the necessary details to make payment</h1>;
-  }
+      const response = await axios.post(
+        `https://localhost:7063/api/Payments/CreatePaymentIntent`,
+        { Amount: 500 }
+      );
+      console.log(response.data);
+
+      const { clientSecret } = response.data; // Access data directly from response
+      setClientSecret(clientSecret);
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+    }
+  };
+
+  const handlePayment = async () => {
+    console.log("hi");
+
+    if (!stripe || !elements) {
+      return; // Stripe has not yet loaded
+    }
+
+    setIsLoading(true);
+    const cardElement = elements.getElement(CardElement);
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+          card: cardElement,
+          billing_details: {
+              name: "John Doe", // Replace with the actual customer name
+              email: "johndoe@gmail.com", // Replace with the actual customer email
+              address: {
+                  line1: "123 Main St", // Replace with the actual address line
+                  city: "Hyderabad", // Replace with the actual city
+                  state: "Andhra Pradesh", // Replace with the actual state
+                  postal_code: "500001", // Replace with the actual postal code
+                  country: "IN", // Country code for India
+              },
+          },
+      },
+  });
+
+    if (error) {
+      console.error("Payment error:", error.message);
+      alert(error.message);
+    } else if (paymentIntent.status === "succeeded") {
+      alert("Payment successful!");
+      nav("/")
+    }
+
+    setIsLoading(false);
+  };
 
   return (
-    <div className="form-wrapper">
-      <form onSubmit={handleSubmit(onFormSubmit)}>
-        <MDBRow className="mb-4">
-          <MDBCol>
-            <p>Premium Amount: ${amount}</p>
-          </MDBCol>
-        </MDBRow>
+    <div className="details-wrapper">
+      <MDBRow className="mb-4">
+        <MDBCol>
+          <p>Premium Amount: ${(amount / 100).toFixed(2)}</p>
+        </MDBCol>
+      </MDBRow>
 
-        <MDBRow className="mb-4">
-          <MDBCol>
-            <MDBInput
-              id="paymentDate"
-              label="Payment Date"
-              type="date"
-              {...register("paymentDate")}
-              invalid={!!errors.paymentDate}
-              validationError={errors.paymentDate?.message}
-            />
-          </MDBCol>
-        </MDBRow>
+      <MDBRow className="mb-4">
+        <MDBCol>
+          <MDBInput
+            id="paymentDate"
+            label="Payment Date"
+            type="date"
+            value={paymentDate}
+            disabled
+          />
+        </MDBCol>
+      </MDBRow>
 
-        <MDBRow className="mb-4">
-          <MDBCol>
-            <MDBInput
-              id="paymentMethod"
-              label="Payment Method"
-              {...register("paymentMethod")}
-              invalid={!!errors.paymentMethod}
-              validationError={errors.paymentMethod?.message}
-            />
-          </MDBCol>
-        </MDBRow>
-
-        <MDBBtn type="Make Payment" block>
-          Pay Now
-        </MDBBtn>
-      </form>
+      {clientSecret && (
+        <div>
+          <CardElement
+            className="card-element"
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#333",
+                  "::placeholder": {
+                    color: "#999",
+                  },
+                },
+                invalid: {
+                  color: "#dc3545",
+                },
+                complete: {
+                  color: "#28a745",
+                },
+              },
+            }}
+          />
+          <MDBBtn onClick={handlePayment} disabled={isLoading} block>
+            {isLoading ? "Processing..." : "Pay Now"}
+          </MDBBtn>
+        </div>
+      )}
     </div>
+  );
+}
+
+// Wrap your component in Elements provider to use Stripe
+export default function StripeWrapper(props) {
+  return (
+    <Elements stripe={stripePromise}>
+      <PaymentDetails {...props} />
+    </Elements>
   );
 }

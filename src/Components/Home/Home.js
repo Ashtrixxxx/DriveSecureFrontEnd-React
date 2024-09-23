@@ -8,7 +8,7 @@ export const Home = () => {
     <>
       <div id="div-my">
         <div>
-          <div id="pri">
+          <div id="pri" style={{marginRight : "50px"}}>
             <h2 id="heading-1">Drive Secure</h2>{" "}
             <h2 id="heading-typical" style={{ color: "#479ed8" }}>
               {" "}

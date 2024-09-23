@@ -32,6 +32,7 @@ export const SideNav = () => {
         }}
         onClick={toggleSideNav}
       >
+        
         <MDBIcon fas icon="bars" size="2x" />
       </div>
 
@@ -109,7 +110,7 @@ export const SideNav = () => {
               style={{ position: "absolute", bottom: "20px", width: "100%" }}
             >
               <MDBBtn
-                color="danger"
+                backgroundColor="#479ed8"
                 block
                 onClick={() => {
                   localStorage.removeItem("Auth-Token");

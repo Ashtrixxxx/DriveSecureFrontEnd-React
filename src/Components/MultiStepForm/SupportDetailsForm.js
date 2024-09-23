@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 // Define validation schema using yup
 const schema = yup.object({
@@ -12,14 +14,64 @@ const schema = yup.object({
 
 const SupportDetailsForm = ({ onSubmit }) => {
   // Initialize react-hook-form
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
-  // Handle form submission
-  const onFormSubmit = (data) => {
-    console.log(data);
-    onSubmit(data); // Pass form data to parent component
+  // State to hold uploaded file URLs
+  const [addressProofUrl, setAddressProofUrl] = useState("");
+  const [rcProofUrl, setRcProofUrl] = useState("");
+
+  // Handle file upload and form submission
+  const onFormSubmit = async () => {
+    const decodedToken = jwtDecode(localStorage.getItem("Auth-Token"));
+    const userId = decodedToken.nameid; // Extract userId from JWT token
+
+    // Prepare form data to send to parent component
+    const formDataWithUserId = {
+      UserID: userId,
+      addressProofUrl, // Save address proof URL
+      rcProofUrl, // Save RC proof URL
+    };
+
+    onSubmit(formDataWithUserId); // Pass form data to parent component
+  };
+
+  // Handle file selection and upload
+  const handleFileChange = async (event, type) => {
+    const file = event.target.files[0]; // Get the selected file
+    if (!file) return;
+
+    // Create FormData to send the file
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      // Make the Axios request to upload the file
+      const response = await axios.post(
+        "https://localhost:7063/api/FileUpload/upload", // Adjust the URL as necessary
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const fileId = response.data.fileId;
+      const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Changed format
+
+      if (type === "addressProof") {
+        setAddressProofUrl(viewLink);
+        setValue("addressProof", file); // Update react-hook-form value
+      } else if (type === "rcProof") {
+        setRcProofUrl(viewLink);
+        setValue("rcProof", file); // Update react-hook-form value
+      }
+
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   };
 
   return (
@@ -30,12 +82,13 @@ const SupportDetailsForm = ({ onSubmit }) => {
             <MDBInput
               id="addressProof"
               label="Address Proof"
-              type="file" // Change input type to file
+              type="file"
               {...register("addressProof")}
               invalid={!!errors.addressProof}
               validationError={errors.addressProof?.message}
+              onChange={(e) => handleFileChange(e, "addressProof")} // Handle file change
             />
-            
+            {addressProofUrl && <p>Uploaded: <a href={addressProofUrl} target="_blank" rel="noopener noreferrer">{addressProofUrl}</a></p>}
           </MDBCol>
         </MDBRow>
 
@@ -44,11 +97,13 @@ const SupportDetailsForm = ({ onSubmit }) => {
             <MDBInput
               id="rcProof"
               label="RC Proof"
-              type="file" // Change input type to file
+              type="file"
               {...register("rcProof")}
               invalid={!!errors.rcProof}
               validationError={errors.rcProof?.message}
+              onChange={(e) => handleFileChange(e, "rcProof")} // Handle file change
             />
+            {rcProofUrl && <p>Uploaded: <a href={rcProofUrl} target="_blank" rel="noopener noreferrer">{rcProofUrl}</a></p>}
           </MDBCol>
         </MDBRow>
 

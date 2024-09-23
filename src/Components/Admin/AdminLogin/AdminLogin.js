@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../Login/Login.css";
-//import loginImage from "../../Assets/Computer login-rafiki.png";
+import img from "../../../Assets/Computer login-rafiki.png"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -69,7 +69,7 @@ const AdminLogin = () => {
         {showAlert && <div className="custom-alert">Welcome {AdminEmail}</div>}
       </center>
       <MDBCol md="6" className="image-section">
-        <img  alt="Login Visual" className="login-image" />
+        <img src={img} alt="Login Visual" className="login-image" />
       </MDBCol>
       <MDBCol md="6" className="form-section">
         <h2>Login</h2>

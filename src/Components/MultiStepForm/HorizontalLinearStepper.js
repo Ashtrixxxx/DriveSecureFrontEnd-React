@@ -12,6 +12,9 @@ import "./stepper.css";
 import SupportDetailsForm from "./SupportDetailsForm";
 const steps = ["Enter Vehicle Details", "Enter Insurance Coverage Details", "Enter Payment Details", "Upload Your Support Documents"];
 
+
+
+
 export default function HorizontalLinearStepper(type) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -60,6 +63,7 @@ export default function HorizontalLinearStepper(type) {
   const handleVehicleFormSubmit = (data) => {
     setVehicleFormData(data);
     console.log(data);
+    console.log("vehicle");
     
     handleNext(); // Move to the next step after form submission
   };
@@ -67,7 +71,8 @@ export default function HorizontalLinearStepper(type) {
   const handleInsuranceFormSubmit = (data) => {
     setInsuranceFormData(data);
     console.log(data);
-    
+    console.log("insurance");
+
     handleNext(); // Move to the next step after form submission
   };
 
@@ -75,7 +80,8 @@ export default function HorizontalLinearStepper(type) {
   const handlePaymentFormSubmit = (data) => {
     setPaymentFormData(data);
     console.log(data);
-    
+    console.log("Payment");
+
     handleNext(); // Move to the next step after form submission
   };
 
@@ -122,7 +128,6 @@ export default function HorizontalLinearStepper(type) {
             {activeStep === 0 && <VehicleDetailsForm onSubmit={handleVehicleFormSubmit} type={type}/>}
             {activeStep === 1 && <InsuranceDetailsForm  onSubmit= {handleInsuranceFormSubmit}/>}
             {activeStep === 2 && <SupportDetailsForm onSubmit={handleSupportFormSubmit} />}
-
             {activeStep === 3 && <PaymentDetailsForm onSubmit={handlePaymentFormSubmit} insurance={insuranceFormData} vehicle={vehicleFormData} />}
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

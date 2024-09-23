@@ -1,45 +1,82 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import React, { useState } from "react";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import "./insurance.css";
-
-// Define validation schema using yup
-const schema = yup.object({
-  coverageType: yup.string().required("Coverage Type is required"),
-  coverageStartDate: yup.date().required("Coverage Start Date is required"),
-  coverageEndDate: yup
-    .date()
-    .required("Coverage End Date is required")
-    .min(yup.ref('coverageStartDate'), "Coverage End Date must be after the Start Date"),
-  coverageAmount: yup.number().required("Coverage Amount is required").positive(),
-  status: yup.number().required("Status is required").integer().min(0).max(1),
-}).required();
+import { jwtDecode } from "jwt-decode";
 
 export default function InsuranceDetailsForm({ onSubmit }) {
-  // Initialize react-hook-form
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
+  // State to hold form values
+  const [formData, setFormData] = useState({
+    coverageType: "",
+    coverageStartDate: "",
+    coverageEndDate: "",
   });
 
+  // State to hold validation errors
+  const [errors, setErrors] = useState({});
+
+  // Handle input change
+  const handleChange = (e) => {
+    
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    
+  };
+
+  // Validate form data
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.coverageType) newErrors.coverageType = "Coverage Type is required";
+    if (!formData.coverageStartDate) newErrors.coverageStartDate = "Coverage Start Date is required";
+    if (!formData.coverageEndDate) newErrors.coverageEndDate = "Coverage End Date is required";
+    if (new Date(formData.coverageEndDate) <= new Date(formData.coverageStartDate)) {
+      newErrors.coverageEndDate = "Coverage End Date must be after the Start Date";
+    }
+    if (!formData.coverageAmount || formData.coverageAmount <= 0) {
+      newErrors.coverageAmount = "Coverage Amount is required and must be positive";
+    }
+    if (!formData.status || (formData.status !== "0" && formData.status !== "1")) {
+      newErrors.status = "Status is required and must be 0 or 1";
+    }
+
+    return newErrors;
+  };
+
   // Handle form submission
-  const onFormSubmit = (data) => {
-    console.log(data);
-    onSubmit(data); // Pass form data to parent component
+  const handleSubmit = (e) => {
+    console.log(formData);
+    e.preventDefault();
+    
+
+    const decodedToken = jwtDecode(localStorage.getItem("Auth-Token"));
+    const userId = decodedToken.nameid; // Extract userId from JWT token
+    console.log(userId);
+    
+    // Append userId to form data
+    const formDataWithUserId = {
+      ...formData,
+      UserID: userId, // Add userId to form data
+    };
+
+    console.log(formDataWithUserId);
+    onSubmit(formDataWithUserId); // Pass form data to parent component
   };
 
   return (
     <div className="form-wrapper">
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit}>
         <MDBRow className="mb-4">
           <MDBCol>
             <MDBInput
               id="coverageType"
               label="Coverage Type"
-              {...register("coverageType")}
+              name="coverageType"
+              value={formData.coverageType}
+              onChange={handleChange}
               invalid={!!errors.coverageType}
-              validationError={errors.coverageType?.message}
+              validationError={errors.coverageType}
             />
           </MDBCol>
         </MDBRow>
@@ -50,9 +87,11 @@ export default function InsuranceDetailsForm({ onSubmit }) {
               type="date"
               id="coverageStartDate"
               label="Coverage Start Date"
-              {...register("coverageStartDate")}
+              name="coverageStartDate"
+              value={formData.coverageStartDate}
+              onChange={handleChange}
               invalid={!!errors.coverageStartDate}
-              validationError={errors.coverageStartDate?.message}
+              validationError={errors.coverageStartDate}
             />
           </MDBCol>
           <MDBCol>
@@ -61,13 +100,19 @@ export default function InsuranceDetailsForm({ onSubmit }) {
               type="date"
               id="coverageEndDate"
               label="Coverage End Date"
-              {...register("coverageEndDate")}
+              name="coverageEndDate"
+              value={formData.coverageEndDate}
+              onChange={handleChange}
               invalid={!!errors.coverageEndDate}
-              validationError={errors.coverageEndDate?.message}
+              validationError={errors.coverageEndDate}
             />
           </MDBCol>
         </MDBRow>
-        <MDBBtn type="submit" block>
+        <MDBRow>
+          
+          
+        </MDBRow>
+        <MDBBtn type="submit">
           Submit Insurance Policy
         </MDBBtn>
       </form>
