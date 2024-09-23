@@ -117,39 +117,7 @@ const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Chan
                 <h3 className="text-center mb-4">Sign Up</h3>
                 {error && <p className="text-danger">{error}</p>}
                 <form onSubmit={handleSubmit}>
-                  <MDBRow>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="profile"
-                        name="Profile"
-                        type="file"
-                        onChange={handleFileChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="First Name"
-                        name="FirstName"
-                        value={userData.FirstName}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Last Name"
-                        name="LastName"
-                        value={userData.LastName}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                  </MDBRow>
-                  <MDBRow>
+                  
                     <MDBCol md="6">
                       <MDBInput
                         label="User Name"
@@ -160,9 +128,10 @@ const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Chan
                         className="mb-4"
                       />
                     </MDBCol>
+                    
                     <MDBCol md="6">
                       <MDBInput
-                        type="password"
+                        type="Password"
                         label="Password"
                         name="UserPass"
                         value={userData.UserPass}
@@ -171,52 +140,8 @@ const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Chan
                         className="mb-4"
                       />
                     </MDBCol>
-                  </MDBRow>
-                  <MDBRow>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Profile URL"
-                        name="ProfileUrl"
-                        value={userData.ProfileUrl}
-                        readOnly // Prevent user from editing this field directly
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Date of Birth"
-                        type="date"
-                        name="DOB"
-                        value={userData.DOB}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                  </MDBRow>
-                  <MDBRow>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Gender"
-                        name="Gender"
-                        value={userData.Gender}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Phone"
-                        name="Phone"
-                        value={userData.Phone}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                  </MDBRow>
-                  <MDBRow>
+                 
+                  
                     <MDBCol md="6">
                       <MDBInput
                         label="Email"
@@ -227,17 +152,8 @@ const viewLink = `https://drive.google.com/uc?export=view&id=${fileId}`; // Chan
                         className="mb-4"
                       />
                     </MDBCol>
-                    <MDBCol md="6">
-                      <MDBInput
-                        label="Occupation"
-                        name="Occupation"
-                        value={userData.Occupation}
-                        onChange={handleChange}
-                        required
-                        className="mb-4"
-                      />
-                    </MDBCol>
-                  </MDBRow>
+                    
+                 
                   <MDBBtn type="submit" className="w-100 mb-4">
                     Sign Up
                   </MDBBtn>
