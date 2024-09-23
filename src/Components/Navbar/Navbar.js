@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import img from "../../Assets/Gemini_Generated_Image_mesf6xmesf6xmesf-removebg-preview.png"
 import axios from "axios";
 
 export const Navbar = () => {
@@ -65,7 +65,7 @@ export const Navbar = () => {
   return (
     <div>
       <nav className="nav-bar1">
-        <h3>Drive Secure</h3>
+        <h3><img src={img}/></h3>
         <ul className="ul-list1">
           <Link to="/">
             <li>Home</li>
@@ -86,22 +86,17 @@ export const Navbar = () => {
           )}
           {displayLogOut && (
             <div className="dropdown show">
-              <img
-                src="https://drive.google.com/file/d/1u_6ZN7FIHETZJgCdJio6xm5DDsu9IaS5/preview"
-                alt="Profile"
+              <a
                 className="btn dropdown-toggle"
                 role="button"
                 id="dropdownMenuLink"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-                style={{
-                  cursor: "pointer",
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                }}
-              />
+              >
+                {username}
+              </a>
+              
               {console.log(userData.profileUrl)}
 
               {userData.profileUrl && (
@@ -109,7 +104,6 @@ export const Navbar = () => {
                   className="dropdown-menu"
                   aria-labelledby="dropdownMenuLink"
                 >
-                  <a className="dropdown-item">{username}</a>
                   <Link to="/user/dashboard" className="dropdown-item">
                     DashBoard
                   </Link>

@@ -94,8 +94,8 @@ export const AdminSideNav = () => {
             <div
               style={{ position: "absolute", bottom: "20px", width: "100%" }}
             >
-              <MDBBtn
-                color="danger"
+              <button
+                backgroundColor="#479ed8"
                 block
                 onClick={() => {
                   localStorage.removeItem("Admin-Token");
@@ -103,7 +103,7 @@ export const AdminSideNav = () => {
                 }}
               >
                 <MDBIcon fas icon="sign-out-alt" /> Logout
-              </MDBBtn>
+              </button>
             </div>
           </>
         )}

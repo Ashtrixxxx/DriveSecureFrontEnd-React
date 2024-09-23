@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import {jwtDecode} from "jwt-decode"
 import { MDBRow, MDBCol, MDBInput, MDBBtn, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from "mdb-react-ui-kit";
 import "./forms.css";
 
@@ -26,8 +27,8 @@ const schema = yup.object({
 }).required();
 
 export default function VehicleDetailsForm({ onSubmit,type }) {
-  console.log(type.type.VehicleType);
-  
+
+
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
@@ -43,8 +44,18 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
 
   // Handle form submission
   const onFormSubmit = (data) => {
-    console.log(data);
-    onSubmit(data); // Pass form data to parent component
+
+    const decodedToken = jwtDecode(localStorage.getItem("Auth-Token"));
+    const userId = decodedToken.nameid; // Extract userId from JWT token
+
+    // Append userId to form data
+    const formDataWithUserId = {
+      ...data,
+      UserID: userId, // Add userId to form data
+    };
+
+    console.log(formDataWithUserId);
+    onSubmit(formDataWithUserId); // Pass form data to parent component
   };
 
   return (
