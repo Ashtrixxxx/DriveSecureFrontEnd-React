@@ -1,5 +1,7 @@
 .nav-bar1{
-    margin-top: 50px;
+  background-color: #9A1750;
+
+    margin-bottom: 0%;
    display: flex;
    flex-direction: row;
    justify-content: space-between;
@@ -10,7 +12,7 @@
 
 .nav-bar1 .ul-list1 a {
     text-decoration: none; /* Removes the underline */
-    color: inherit; /* Optional: Keeps the color of the text consistent */
+    color: #E3afbc; /* Optional: Keeps the color of the text consistent */
   }
 
  
@@ -89,9 +91,12 @@ h3{
     justify-content: space-between;
     align-items: end;
     margin-right: 5%;
+    color: #ee4c7c; 
+    
 }
 
 .ul-list1 li{
+  color: #E3afbc; 
     font-size: 20px;
     padding-right: 60px;
     font-family: 'Cabin', sans-serif !important;

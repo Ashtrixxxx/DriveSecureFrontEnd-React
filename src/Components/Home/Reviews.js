@@ -11,7 +11,7 @@ const Reviews = () => {
   return (
     <div className="overall-reviews">
         <center>
-            <h1 style={{marginBottom:"30px", color:"#479ed8"}}>CUSTOMER REVIEWS</h1>
+            <h1  className="my-h1" style={{marginBottom:"30px", color:"#479ed8"}}>CUSTOMER REVIEWS</h1>
         </center>
       <div class="row">
         <div class="col-sm-6">
