@@ -13,13 +13,19 @@
   justify-content: flex-end;
   align-items: flex-end;
   min-height: 100vh;
+  background-color: #e2e2df;
+}
+
+.container{
+  max-width: 100vh;
+  width: 100%;
 }
 
 .footer {
-  margin-top: 7%;
+  padding-top: 7%;
   position: relative;
   width: 100%;
-  background: #3586ff;
+  background: #9A1570;
   min-height: 100px;
   padding: 20px 50px;
   display: flex;

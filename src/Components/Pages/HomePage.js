@@ -63,7 +63,6 @@ const HomePage = () => {
         {showAlert && <div className="custom-alert">Session Expired</div>}
       </center>
       <Navbar />
-      <ToastContainer />
       <center>
         <div className="get-quota-design">
           <button onClick={scrollToSection}>Get a Quota Right now !!</button>

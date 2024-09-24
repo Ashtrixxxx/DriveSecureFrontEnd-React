@@ -1,18 +1,30 @@
 .overall-reviews{
-    margin-top: 350px;
+    padding-top: 350px;
 
-
+background-color: #E2E2df;
 }
 
 .row{
     margin-left: 5%;
     margin-right: 0%;
-    margin-bottom: 40px
+    padding-bottom: 40px
 }
 
 img{
     width: 20%;
     height: 20%;
+}
+
+.my-h1{
+    color: #9a1750 !important;
+}
+
+.card-body{
+    background-color: #E2E2df;
+}
+
+.card-title{
+    color: #9a1750 !important;
 }
 
 .pfp{

@@ -12,7 +12,7 @@ import {
   CListGroupItem,
   CCardLink,
 } from "@coreui/react";
-import img from "../../Assets/shapes.png";
+import img from "../../Assets/shapes-removebg-preview.png";
 import pro1 from "../../Assets/bike2.png";
 import pro2 from "../../Assets/car2.jpg";
 import pro3 from "../../Assets/truck.png";
@@ -21,7 +21,7 @@ export const Insurances = () => {
   const nav = useNavigate();
 
   return (
-    <>
+    <div className="my-insurance-div">
       <div className="header">
         <h1>Available Insurances</h1>
         <i class="fa-brands fa-instagram"></i>{" "}
@@ -42,7 +42,7 @@ export const Insurances = () => {
               src={pro1}
               style={{ width: "398px", height: "250px" }}
             />
-            <CCardBody>
+            <CCardBody style={{ backgroundColor:"white"}}>
               <CCardTitle>Bike Insurance</CCardTitle>
               <CCardText>
                 Get comprehensive coverage for your bike against accidents,
@@ -55,9 +55,7 @@ export const Insurances = () => {
               <CListGroupItem>Third-Party Liability Coverage</CListGroupItem>
               <CListGroupItem>Theft Protection</CListGroupItem>
             </CListGroup>
-            <CCardBody>
-              <CCardLink href="#">Learn more about Bike Insurance</CCardLink>
-            </CCardBody>
+           
           </CCard>
 
           <div className="card-containers">
@@ -68,7 +66,7 @@ export const Insurances = () => {
               }}
             >
               <CCardImage orientation="top" src={pro2}  style={{height:"250px"}}/>
-              <CCardBody>
+              <CCardBody style={{ backgroundColor:"white"}}>
                 <CCardTitle>Car Insurance</CCardTitle>
                 <CCardText>
                   Safeguard your car with all-round protection. Our car
@@ -85,9 +83,7 @@ export const Insurances = () => {
                   Natural Disaster and Theft Protection
                 </CListGroupItem>
               </CListGroup>
-              <CCardBody>
-                <CCardLink href="#">Learn more about Car Insurance</CCardLink>
-              </CCardBody>
+              
             </CCard>
           </div>
 
@@ -98,8 +94,8 @@ export const Insurances = () => {
                 nav("/insurance/Truck");
               }}
             >
-              <CCardImage orientation="top" src={pro3} style={{height:"250px"}}/>
-              <CCardBody>
+              <CCardImage orientation="top" src={pro3} style={{height:"250px",}}/>
+              <CCardBody style={{ backgroundColor:"white"}}>
                 <CCardTitle>Truck Insurance</CCardTitle>
                 <CCardText>
                   Ensure your truck is fully insured against accidents, damage,
@@ -107,20 +103,18 @@ export const Insurances = () => {
                   specialized truck insurance policies.
                 </CCardText>
               </CCardBody>
-              <CListGroup flush>
-                <CListGroupItem>
+              <CListGroup flush style={{ backgroundColor:"white"}}>
+                <CListGroupItem >
                   Comprehensive Accident Protection
                 </CListGroupItem>
                 <CListGroupItem>Cargo and Load Insurance</CListGroupItem>
                 <CListGroupItem>Third-Party Property Damage</CListGroupItem>
               </CListGroup>
-              <CCardBody>
-                <CCardLink href="#">Learn more about Truck Insurance</CCardLink>
-              </CCardBody>
+              
             </CCard>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
