@@ -1,83 +1,46 @@
-
-  .signup-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height:100%; 
-    padding: 0; 
-  }
-  
-
-  .signup-form-image-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-
-  h3 {
-    color: #479ed8;
-    margin-bottom: 20px;
+.signup-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa;
 }
-  .signup-container .d-flex-align-items-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    padding: 0; 
+
+.signup-image-container {
+  text-align: center;
+}
+
+.signup-image {
+  width: 150%;
+  max-width: 500px;
+  height: auto;
+}
+
+.signup-form-card {
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+h3 {
+  color: #479ed8;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+    height: auto;
   }
-  
+
   .signup-image {
-    width: 100%; 
-    max-width: 100%; 
-    object-fit: contain; 
+    display: none;
   }
-  
-  .signup-form {
-    margin-top: 150px;
-    width: 100%;
-    padding: 2px; 
+
+  .signup-form-card {
+    margin-top: 1rem;
   }
-  
-  @media (min-width: 992px) {
-    .signup-container {
-      padding: 0;
-    }
-  
-    .signup-form {
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-  
-  form {
-    width: 100%;
-  }
-  
-  .text-center {
-    text-align: center;
-    font-size: 1rem; 
-  }
-  
-  
-  .MDBInput, .MDBBtn {
-    font-size: 0.7rem;
-  } 
-  
-  .MDBCardBody {
-    padding: 0; 
-  }
-  
-  
-  .mb-4 {
-    margin-bottom: 0 !important; 
-  }
-  
-  
-  .MDBBtn {
-    margin: 0;
-    padding: 0; 
-    font-size: 0.7rem; 
-  }
+}
+
+

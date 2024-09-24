@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Login.css";
-import loginImage from "../../Assets/Computer login-rafiki.png";
+import loginImage from "../../Assets/login.avif";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
 
@@ -97,6 +97,10 @@ const Login = () => {
             Login
           </button>
         </form>
+        <p className="text-center">
+           Don't have an account?{" "}
+          <Link to="/SignUP">Register</Link> {/* Link to signup page */}
+       </p>
       </MDBCol>
     </MDBRow>
   </MDBContainer>
