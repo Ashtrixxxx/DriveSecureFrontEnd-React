@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import loginImage from "../../Assets/login.avif";
+import loginImage from "../../Assets/Computer login-rafiki.png";
 import axios from "axios";
 import { useNavigate,Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
