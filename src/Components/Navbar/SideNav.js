@@ -10,6 +10,13 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 
+//Import Material Icons
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import DirectionsCarOutlinedIcon from "@mui/icons-material/DirectionsCarOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 export const SideNav = () => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -33,7 +40,7 @@ export const SideNav = () => {
         onClick={toggleSideNav}
       >
         
-        <MDBIcon fas icon="bars" size="2x" />
+        <span className="material-icons">menu</span>
       </div>
 
       <div
@@ -61,7 +68,7 @@ export const SideNav = () => {
                 marginLeft: "15px",
               }}
             >
-              <MDBIcon fas icon="car" /> DriveSecure
+               <DirectionsCarOutlinedIcon /> DriveSecure
             </MDBNavbarBrand>
 
             <MDBNavbarNav>
@@ -70,7 +77,7 @@ export const SideNav = () => {
                   href="/user/dashboard"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <MDBIcon fas icon="tachometer-alt" /> Dashboard
+                 <DashboardOutlinedIcon /> Dashboard
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
@@ -78,7 +85,7 @@ export const SideNav = () => {
                   href="/user/DisplayVehicle"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <MDBIcon fas icon="car" /> Vehicles
+                   <DirectionsCarOutlinedIcon /> Vehicles
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
@@ -86,7 +93,7 @@ export const SideNav = () => {
                   href="/user/DisplayInsurances"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <MDBIcon fas icon="file-alt" /> Policies
+                 <DescriptionOutlinedIcon /> Policies
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
@@ -94,7 +101,7 @@ export const SideNav = () => {
                   href="/claims"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <MDBIcon fas icon="file-signature" /> Claims
+                   <AssignmentOutlinedIcon /> Claims
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
@@ -102,7 +109,7 @@ export const SideNav = () => {
                   href="/profile"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <MDBIcon fas icon="user" /> Profile
+                  <AccountCircleOutlinedIcon /> Profile
                 </MDBNavbarLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
@@ -117,7 +124,7 @@ export const SideNav = () => {
                   window.location.href = "/login";
                 }}
               >
-                <MDBIcon fas icon="sign-out-alt" /> Logout
+               <LogoutOutlinedIcon /> Logout
               </MDBBtn>
             </div>
           </>
