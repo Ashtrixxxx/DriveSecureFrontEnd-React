@@ -47,7 +47,7 @@ iframe {
 
 
   .btn{
-    background-color: #479ed8;
+    background-color: #9A1750;
     margin-right: 10px; /* Adds space between the two buttons */
 
   }
@@ -104,4 +104,10 @@ h3{
 
 .ul-list1 li:hover{
     color: #479ed8;
+}
+
+
+.logout-btn{
+        background-color: "#9A1750"  !important
+      
 }
