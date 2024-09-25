@@ -40,7 +40,7 @@
   input[type="email"]:focus,
   input[type="password"]:focus,
   textarea:focus {
-    border-color: #479ed8;
+    border-color: #9A1750;
     outline: none;
   }
   
@@ -57,7 +57,8 @@
   button {
     width: 100%;
     padding: 12px;
-    background-color: #479ed8;
+    background-color: #9A1750 !important;
+    border-color: #9A1750 !important;
     border: none;
     border-radius: 4px;
     color: #fff;

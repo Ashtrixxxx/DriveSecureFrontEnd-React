@@ -80,14 +80,15 @@ export const DisplayInsurances = () => {
               {item.status==3 && <p className="card-text">
                 Your Quota has been rejected for a set of reasons pls check the mail
               </p>}
-              <a
+              <button
+              style={{backgroundColor:"#9A1750"}}
                 className="btn btn-primary"
                 onClick={() => {
                   nav("/user/InsuranceDetails", { state: { insurance: item } });
                 }}
               >
                 Show Details
-              </a>
+              </button>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ const schema = yup.object({
   yearOfManufacture: yup.number().required("Year of Manufacture is required").min(1900).max(new Date().getFullYear()),
   numberOfSeats: yup.number().required("Number of Seats is required").positive().integer(),
   fuelType: yup.string().required("Fuel Type is required"),
-  listPrice: yup.string().required("List Price is required"),
+  listPrice: yup.number().required("List Price is required"),
   licensePlateNumber: yup.string().required("License Plate Number is required"),
   vehicleCondition: yup.string().required("Vehicle Condition is required"),
   serviceHistory: yup.string().required("Service History is required"),

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -10,10 +10,14 @@ import PaymentDetailsForm, { LoginForm } from "./PaymentDetailsForm";
 import InsuranceDetailsForm, { RegistrationForm } from "./InsuranceDetailsForm";
 import "./stepper.css";
 import SupportDetailsForm from "./SupportDetailsForm";
-const steps = ["Enter Vehicle Details", "Enter Insurance Coverage Details", "Enter Payment Details", "Upload Your Support Documents"];
-
-
-
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+const steps = [
+  "Enter Vehicle Details",
+  "Enter Insurance Coverage Details",
+  "Upload Your Support Documents",
+];
 
 export default function HorizontalLinearStepper(type) {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -22,7 +26,16 @@ export default function HorizontalLinearStepper(type) {
   const [insuranceFormData, setInsuranceFormData] = React.useState({});
   const [paymentFormData, setPaymentFormData] = React.useState({});
   const [supportFormData, setSupportFormData] = React.useState({});
+  const [UserID, setUserID] = useState(null);
+  const nav = useNavigate();
+  const token = localStorage.getItem("Auth-Token");
 
+  useEffect(() => {
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setUserID(decodedToken.nameid);
+    }
+  });
 
   const isStepOptional = (step) => step === 1;
 
@@ -56,15 +69,77 @@ export default function HorizontalLinearStepper(type) {
     });
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     setActiveStep(0);
+
+    const PaymentCompletionDto = {
+      Vehicle: {
+        VehicleType: vehicleFormData.vehicleType,
+        VehicleModel: vehicleFormData.vehicleModel,
+        EngineNumber: vehicleFormData.engineNumber,
+        EngineType: vehicleFormData.engineType,
+        YearOfManufacture: vehicleFormData.yearOfManufacture,
+        NumberOfSeats: vehicleFormData.numberOfSeats,
+        FuelType: vehicleFormData.fuelType,
+        ListPrice: vehicleFormData.listPrice.toString(),
+        LicensePlateNumber: vehicleFormData.licensePlateNumber,
+        VehicleCondition: vehicleFormData.vehicleCondition,
+        ServiceHistory: vehicleFormData.serviceHistory,
+        LastServiceDate: new Date(vehicleFormData.lastServiceDate)
+          .toISOString()
+          .split("T")[0], // ISO format yyyy-MM-dd
+        VehicleIdentificationNumber: parseInt(vehicleFormData.vin), // Updated VIN to match VehicleIdentificationNumber
+        TransmissionType: vehicleFormData.transmissionType,
+        NumberOfPreviousOwners: vehicleFormData.numberOfPreviousOwners,
+        RegistrationDate: new Date(vehicleFormData.registrationDate)
+          .toISOString()
+          .split("T")[0], // ISO format yyyy-MM-dd
+        UserID: parseInt(vehicleFormData.UserID),
+      },
+      PolicyDetails: {
+        CoverageType: insuranceFormData.coverageType,
+        CoverageStartDate: new Date(insuranceFormData.coverageStartDate)
+          .toISOString()
+          .split("T")[0], // ISO format yyyy-MM-dd
+        CoverageEndDate: new Date(insuranceFormData.coverageEndDate)
+          .toISOString()
+          .split("T")[0], // ISO format yyyy-MM-dd
+        CoverageAmount: insuranceFormData.insuranceAmount,
+        UserID: parseInt(insuranceFormData.UserID),
+        IsRenewed: insuranceFormData.isRenewed || false, // Default to false if not provided
+        Status: 0,
+      },
+      SupportDocuments: {
+        AddressProof: supportFormData.addressProofUrl,
+        RCProof: supportFormData.rcProofUrl,
+        UserID: parseInt(supportFormData.UserID),
+      },
+    };
+
+    console.log(PaymentCompletionDto);
+
+    try {
+      const response = await axios.post(
+        `https://localhost:7063/api/User/OnFormSubmission/${UserID}`,
+        PaymentCompletionDto,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      nav("/");
+    } catch (error) {
+      console.log(error.response ? error.response.data : error.message);
+    }
   };
 
   const handleVehicleFormSubmit = (data) => {
     setVehicleFormData(data);
     console.log(data);
     console.log("vehicle");
-    
+
     handleNext(); // Move to the next step after form submission
   };
 
@@ -75,7 +150,6 @@ export default function HorizontalLinearStepper(type) {
 
     handleNext(); // Move to the next step after form submission
   };
-
 
   const handlePaymentFormSubmit = (data) => {
     setPaymentFormData(data);
@@ -88,12 +162,11 @@ export default function HorizontalLinearStepper(type) {
   const handleSupportFormSubmit = (data) => {
     setSupportFormData(data);
     console.log(data);
-    
+
     handleNext(); // Move to the next step after form submission
   };
 
   return (
-    
     <div className="my-div">
       <Box className="stepper-container" sx={{ width: "100%" }}>
         <Stepper activeStep={activeStep}>
@@ -101,7 +174,9 @@ export default function HorizontalLinearStepper(type) {
             const stepProps = {};
             const labelProps = {};
             if (isStepOptional(index)) {
-              labelProps.optional = <Typography variant="caption">Optional</Typography>;
+              labelProps.optional = (
+                <Typography variant="caption">Optional</Typography>
+              );
             }
             if (isStepSkipped(index)) {
               stepProps.completed = false;
@@ -120,15 +195,27 @@ export default function HorizontalLinearStepper(type) {
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
+              <Button onClick={handleReset}>Confirm Submission</Button>
             </Box>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {activeStep === 0 && <VehicleDetailsForm onSubmit={handleVehicleFormSubmit} type={type}/>}
-            {activeStep === 1 && <InsuranceDetailsForm  onSubmit= {handleInsuranceFormSubmit}/>}
-            {activeStep === 2 && <SupportDetailsForm onSubmit={handleSupportFormSubmit} />}
-            {activeStep === 3 && <PaymentDetailsForm onSubmit={handlePaymentFormSubmit} insurance={insuranceFormData} vehicle={vehicleFormData} />}
+            {activeStep === 0 && (
+              <VehicleDetailsForm
+                onSubmit={handleVehicleFormSubmit}
+                type={type}
+              />
+            )}
+            {activeStep === 1 && (
+              <InsuranceDetailsForm
+                onSubmit={handleInsuranceFormSubmit}
+                vehicle={vehicleFormData}
+              />
+            )}
+            {activeStep === 2 && (
+              <SupportDetailsForm onSubmit={handleSupportFormSubmit} />
+            )}
+            {/* {activeStep === 3 && <PaymentDetailsForm onSubmit={handlePaymentFormSubmit} insurance={insuranceFormData} vehicle={vehicleFormData} />} */}
 
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button

@@ -39,7 +39,7 @@
     input[type="email"]:focus,
     input[type="password"]:focus,
     textarea:focus {
-      border-color: #479ed8;
+      border-color: #E2E2DF;
       outline: none;
     }
     

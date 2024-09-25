@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import "./insurance.css";
 import { jwtDecode } from "jwt-decode";
 
-export default function InsuranceDetailsForm({ onSubmit }) {
+export default function InsuranceDetailsForm({ onSubmit, vehicle }) {
   // State to hold form values
   const [formData, setFormData] = useState({
     coverageType: "",
@@ -13,16 +13,15 @@ export default function InsuranceDetailsForm({ onSubmit }) {
 
   // State to hold validation errors
   const [errors, setErrors] = useState({});
+  const [insuranceAmount, setInsuranceAmount] = useState(0);
 
   // Handle input change
   const handleChange = (e) => {
-    
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
-    
   };
 
   // Validate form data
@@ -34,35 +33,59 @@ export default function InsuranceDetailsForm({ onSubmit }) {
     if (new Date(formData.coverageEndDate) <= new Date(formData.coverageStartDate)) {
       newErrors.coverageEndDate = "Coverage End Date must be after the Start Date";
     }
-    if (!formData.coverageAmount || formData.coverageAmount <= 0) {
-      newErrors.coverageAmount = "Coverage Amount is required and must be positive";
-    }
-    if (!formData.status || (formData.status !== "0" && formData.status !== "1")) {
-      newErrors.status = "Status is required and must be 0 or 1";
-    }
 
     return newErrors;
   };
 
+  // Calculate the insurance amount based on form and vehicle details
+  const calculateAmount = () => {
+    if (!vehicle || !formData.coverageStartDate || !formData.coverageEndDate) return 0;
+  
+    const coverageRates = {
+      self: 0.005, // Adjusted to 0.5%
+      thirdParty: 0.005, // Adjusted to 0.5%
+      theft: 0.01, // Remains at 1%
+    };
+  
+    const start = new Date(formData.coverageStartDate);
+    const end = new Date(formData.coverageEndDate);
+    const coverageDuration = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+  
+    let seatModifier = vehicle.numberOfSeats > 5 ? 1.1 : 1.0; // Adjusted seat modifier
+    let serviceHistoryModifier = vehicle.serviceHistory === "good" ? 0.9 : 1.1;
+    let ownerModifier = vehicle.numberOfPreviousOwners > 1 ? 1.05 : 1.0; // Adjusted owner modifier
+  
+    const baseVehicleValue = parseFloat(vehicle.listPrice);
+    let baseInsuranceAmount = baseVehicleValue * (coverageRates[formData.coverageType] || 0.005); // Adjusted to 0.5%
+  
+    let totalInsuranceAmount = baseInsuranceAmount * seatModifier * serviceHistoryModifier * ownerModifier * (coverageDuration / 365);
+  
+    return (totalInsuranceAmount).toFixed(2); // Return amount in Indian Rupees
+  };
+  
+
   // Handle form submission
   const handleSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
-    
 
     const decodedToken = jwtDecode(localStorage.getItem("Auth-Token"));
     const userId = decodedToken.nameid; // Extract userId from JWT token
-    console.log(userId);
-    
+
     // Append userId to form data
     const formDataWithUserId = {
       ...formData,
-      UserID: userId, // Add userId to form data
+      UserID: userId,
+      insuranceAmount: insuranceAmount, // Add insurance amount to form data
     };
 
-    console.log(formDataWithUserId);
     onSubmit(formDataWithUserId); // Pass form data to parent component
   };
+
+  // Update insurance amount whenever form data or vehicle data changes
+  useEffect(() => {
+    const amount = calculateAmount();
+    setInsuranceAmount(amount);
+  }, [formData, vehicle]);
 
   return (
     <div className="form-wrapper">
@@ -108,10 +131,17 @@ export default function InsuranceDetailsForm({ onSubmit }) {
             />
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
-          
-          
+          <MDBCol>
+            <MDBInput
+              label="Calculated Insurance Amount (in cents)"
+              value={insuranceAmount}
+              readOnly
+            />
+          </MDBCol>
         </MDBRow>
+
         <MDBBtn type="submit">
           Submit Insurance Policy
         </MDBBtn>
