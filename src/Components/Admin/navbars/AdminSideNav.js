@@ -51,7 +51,6 @@ export const AdminSideNav = () => {
         {isOpen && (
           <>
             <MDBNavbarBrand
-              href="/"
               style={{
                 color: "#fff",
                 fontSize: "24px",

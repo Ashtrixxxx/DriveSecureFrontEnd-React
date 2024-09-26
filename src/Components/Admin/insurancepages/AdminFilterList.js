@@ -74,10 +74,26 @@ export const AdminFilterList = () => {
               >
                 Show Details
               </a>
-              <a className="btn btn-primary" onClick={()=>{handleAccept(item)}}>
-                Accept policy{" "}
-              </a>
-              <a className="btn btn-primary" onClick={()=>{handleReject(item)}}>Reject policy </a>
+              {item.status != 4 && (
+                <div className="button-container">
+                  <a
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handleAccept(item);
+                    }}
+                  >
+                    Accept policy{" "}
+                  </a>
+                  <a
+                    className="btn btn-primary"
+                    onClick={() => {
+                      handleReject(item);
+                    }}
+                  >
+                    Reject policy
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

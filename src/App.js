@@ -30,6 +30,7 @@ import { AdminInsurances } from "./Components/Admin/insurancepages/AdminInsuranc
 import { AdminLayout } from "./Components/Admin/navbars/AdminLayout";
 import { AdminFilterList } from "./Components/Admin/insurancepages/AdminFilterList";
 import { DetailedPolicy } from "./Components/Admin/insurancepages/DetailedPolicy";
+import PaymentSuccess from "./Components/Pages/PaymentSuccess";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -65,6 +66,7 @@ function App() {
         <Route path="/user/InsuranceDetails" element={<DetailedInsurance/>}/>
         <Route path="/user/FilteredList/:no" element={<FilteredInsurance />}/> */}
           <Route path="/not-authorized" element={<NotAuthorizedPages />} />
+          <Route path="/paymentsuccess" element={<PaymentSuccess/>}/>
           <Route path="/user/dashboard" element={<SideNav />} />
         </Routes>
       </Router>
