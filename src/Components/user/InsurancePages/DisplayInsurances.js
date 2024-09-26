@@ -7,7 +7,7 @@ import { SideNav } from "../../Navbar/SideNav";
 import "./DisplayInsurances.css";
 import { loadStripe } from "@stripe/stripe-js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button } from "bootstrap";
+import { Modal, Button } from "react-bootstrap"; // Use react-bootstrap's Modal and Button
 
 export const DisplayInsurances = () => {
   const stripePromise = loadStripe(
@@ -138,6 +138,7 @@ export const DisplayInsurances = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+console.log(insuranceData);
 
   return (
     <div>
@@ -151,6 +152,7 @@ export const DisplayInsurances = () => {
       </button>
       {showFilter && <FilterInsurance list={insuranceData} />}
       {insuranceData.map((item, index) => (
+      
         <div key={index}>
           <div className="card">
             <div className="card-header">Policies</div>
@@ -162,22 +164,8 @@ export const DisplayInsurances = () => {
               </p>
 
 
-              <button
-                style={{
-                  backgroundColor: "#9A1750",
-                  color: "#fff",
-                  padding: "10px 20px",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                  transition: "all 0.3s ease",
-                }}
-                onClick={() => handleShowDetails(item)}
-              >
-                Show Details
-              </button>
+
+             
 
               {item.status == 0 && (
                 <p className="card-text">
@@ -210,6 +198,23 @@ export const DisplayInsurances = () => {
                   gap: "10px",
                 }}
               >
+                 <button
+                style={{
+                  backgroundColor: "#9A1750",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  transition: "all 0.3s ease",
+                }}
+                onClick={() => handleShowDetails(item)}
+              >
+                Show Details
+              </button>
+                {false &&
                 <button
                   style={{
                     backgroundColor: "#9A1750",
@@ -237,7 +242,7 @@ export const DisplayInsurances = () => {
                 >
                   Show Details
                 </button>
-
+}
                 {item.status === 2 && (
                   <button
                     style={{
@@ -269,7 +274,7 @@ export const DisplayInsurances = () => {
       ))}
 
       {/* Modal for showing insurance details */}
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal show={showModal} onHide={handleCloseModal} backdrop={true} keyboard={true}>
         <Modal.Header closeButton>
           <Modal.Title>Insurance Details</Modal.Title>
         </Modal.Header>
@@ -280,6 +285,9 @@ export const DisplayInsurances = () => {
               <p>Coverage Type: {selectedInsurance.coverageType}</p>
               <p>Coverage Amount: {selectedInsurance.coverageAmount}</p>
               <p>Status: {selectedInsurance.status}</p>
+              <p className="card-text">Coverage Start Date: {selectedInsurance.coverageStartDate}</p>
+              <p className="card-text">Coverage End Date: {selectedInsurance.coverageEndDate}</p>
+
             </div>
           )}
         </Modal.Body>
