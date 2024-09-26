@@ -20,6 +20,10 @@ if(isUser){
     }else if (value === 3) {
       nav("/user/FilteredList/3", { state: { list: list } });
     }
+    else if (value === 4) {
+      nav("/user/FilteredList/4", { state: { list: list } });
+    }
+    
   }else{
     if (value === 0) {
       nav("/admin/dashboard/AdminFilterList/0", { state: { list: list } });
@@ -29,7 +33,10 @@ if(isUser){
       nav("/admin/dashboard/AdminFilterList/2", { state: { list: list } });
     }else if (value === 3) {
       nav("/admin/dashboard/AdminFilterList/3", { state: { list: list } });
+    }else if (value === 4) {
+      nav("/admin/dashboard/AdminFilterList/4", { state: { list: list } });
     }
+    
   }
   };
 
@@ -44,6 +51,8 @@ if(isUser){
         <option value={1}>Under Review</option>
         <option value={2}>Accepted</option>
         <option value={3}>Rejected</option>
+        <option value={4}>Accepted and paid</option>
+
       </select>
     </div>
   );

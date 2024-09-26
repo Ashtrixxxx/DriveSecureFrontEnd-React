@@ -3,3 +3,32 @@
     flex-direction: row;
     width: 500px;
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Distributes space between the buttons */
+    gap: 10px; /* Space between buttons */
+    margin-top: 10px; /* Add margin if needed */
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px; /* Add padding for better button size */
+    font-size: 16px; /* Font size */
+    color: #fff; /* Text color */
+    background-color: #9A1750; /* Primary button color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  .btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
+  
+  .btn:active {
+    transform: scale(0.98); /* Slightly shrink button on click */
+  }
+  
