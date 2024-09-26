@@ -31,4 +31,10 @@
   .btn:active {
     transform: scale(0.98); /* Slightly shrink button on click */
   }
+
+  /* Custom CSS for making the backdrop darker */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.7); /* 0.7 makes the overlay darker */
+}
+
   
