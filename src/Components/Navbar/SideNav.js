@@ -105,7 +105,7 @@ export const SideNav = () => {
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <MDBNavbarLink
-                  href="/profile"
+                  href="/user/Profile"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
                   <AccountCircleOutlinedIcon /> Profile
