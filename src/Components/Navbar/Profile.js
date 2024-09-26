@@ -1,84 +1,126 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-import { 
-MDBContainer, 
-MDBInput, 
-MDBBtn, 
-MDBModal, 
-MDBModalDialog, 
-MDBModalContent, 
-MDBModalHeader, 
-MDBModalTitle, 
-MDBModalBody, 
-MDBModalFooter } from "mdb-react-ui-kit";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {jwtDecode} from "jwt-decode";
+import './Profile.css'; // Import your CSS styles
 
-const Profile = () => {
-    const [profile, setProfile] = useState({
-        profileUrl: "",
-        firstName: "",
-        lastName: "",
-        dob: "",
-        gender: "",
-        phone: "",
-        occupation: "", 
-        streetAddr: "",
-        country: "",
-        zipcode: "",
-        city: "",
-        isProfiled: 0, // Flag for edited profile
+const UserProfile = () => {
+  const [profile, setProfile] = useState(null);
+  const [formData, setFormData] = useState({
+    profileUrl: "",
+    firstName: "",
+    lastName: "",
+    dob: "",
+    gender: "",
+    phone: "",
+    occupation: "",
+    streetAddr: "",
+    country: "",
+    zipcode: "",
+    city: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
 
-  const [showEditModal, setShowEditModal] = useState(false);// Modal for editing profile
-  const [isProfileEdited, setIsProfileEdited] = useState(false);
-  
   useEffect(() => {
-    // Fetch the profile data
+    setToken(localStorage.getItem("Auth-Token"));
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUserId(decoded.nameid);
+      } catch (error) {
+        console.error("Token decoding failed", error);
+      }
+    }
+  }, [token]);
+
+  useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const token = localStorage.getItem("Auth-Token");
-        const response = await axios.get("https://localhost:7063/api/UserProfile", {
+        const response = await axios.get(`https://localhost:7063/api/UserProfile/GetUserProfile/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setProfile(response.data);
-        if (!response.data.isProfiled) {
-          setShowEditModal(true); // Show modal if profile is not edited
-        } else {
-          setIsProfileEdited(true); // Set flag if profile is already edited
+
+        if (response.data) {
+          setProfile(response.data);
+          setFormData(response.data); // Pre-fill formData with profile data
         }
       } catch (error) {
         console.error("Error fetching profile data", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchProfileData();
-  }, []);
+
+    if (userId) {
+      fetchProfileData();
+    }
+  }, [userId]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleSaveProfile = async () => {
+  const handleCreateProfile = async (e) => {
+    e.preventDefault();
+
     try {
-      const token = localStorage.getItem("Auth-Token");
-      await axios.put("https://localhost:7063/api/UserProfile", profile, {
+      await axios.post("https://localhost:7063/api/UserProfile/CreateUserProfile", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Profile created successfully!");
+      setProfile(formData);
+      setFormData({ profileUrl: "", firstName: "", lastName: "", dob: "", gender: "", phone: "", occupation: "", streetAddr: "", country: "", zipcode: "", city: "" });
+    } catch (error) {
+      console.error("Error creating profile", error);
+    }
+  };
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.put(`https://localhost:7063/api/UserProfile/UpdateUserProfile/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       alert("Profile updated successfully!");
-      setIsProfileEdited(true);
-      setShowEditModal(false); // Close modal after saving
+      setProfile(formData);
+      setIsModalOpen(false); // Close modal after update
     } catch (error) {
       console.error("Error updating profile", error);
     }
   };
- 
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleModalClick = (e) => {
+    // Close modal when clicking on the modal background (overlay)
+    if (e.target.className === "modal") {
+      closeModal();
+    }
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    <MDBContainer>
-        <h2>Profile</h2>
-        {/* If profile is already edited, show the profile */}
-      {isProfileEdited ? (
+    <div>
+      <h2>User Profile</h2>
+      {profile ? (
         <div className="profile-details">
           <p><strong>First Name:</strong> {profile.firstName}</p>
           <p><strong>Last Name:</strong> {profile.lastName}</p>
@@ -87,113 +129,116 @@ const Profile = () => {
           <p><strong>Phone:</strong> {profile.phone}</p>
           <p><strong>Occupation:</strong> {profile.occupation}</p>
           <p><strong>Address:</strong> {profile.streetAddr}, {profile.city}, {profile.country} - {profile.zipcode}</p>
-          <MDBBtn onClick={() => setShowEditModal(true)}>Edit Profile</MDBBtn>
+          <button onClick={openModal}>Edit Profile</button>
         </div>
       ) : (
-        <>
-          {/* If profile is not edited, show a button to prompt the user */}
-          <MDBBtn onClick={() => setShowEditModal(true)}>Edit Your Profile</MDBBtn>
-        </>
+        <form onSubmit={handleCreateProfile}>
+          <h3>Create Your Profile</h3>
+          <div>
+            <label>Profile URL:</label>
+            <input type="text" name="profileUrl" value={formData.profileUrl} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>First Name:</label>
+            <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Last Name:</label>
+            <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Date of Birth:</label>
+            <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Gender:</label>
+            <input type="text" name="gender" value={formData.gender} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Phone:</label>
+            <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Occupation:</label>
+            <input type="text" name="occupation" value={formData.occupation} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Street Address:</label>
+            <input type="text" name="streetAddr" value={formData.streetAddr} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Country:</label>
+            <input type="text" name="country" value={formData.country} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>Zipcode:</label>
+            <input type="text" name="zipcode" value={formData.zipcode} onChange={handleInputChange} required />
+          </div>
+          <div>
+            <label>City:</label>
+            <input type="text" name="city" value={formData.city} onChange={handleInputChange} required />
+          </div>
+          <button type="submit">Create Profile</button>
+        </form>
       )}
-     {/* Profile Edit Modal */}
-     <MDBModal show={showEditModal} setShow={setShowEditModal} tabIndex="-1">
-        <MDBModalDialog>
-          <MDBModalContent>
-            <MDBModalHeader>
-              <MDBModalTitle>Edit Profile</MDBModalTitle>
-              <MDBBtn className="btn-close" color="none" onClick={() => setShowEditModal(false)}></MDBBtn>
-            </MDBModalHeader>
-            <MDBModalBody>
-              <MDBInput
-                label="Profile URL"
-                name="profileUrl"
-                value={profile.profileUrl}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="First Name"
-                name="firstName"
-                value={profile.firstName}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Last Name"
-                name="lastName"
-                value={profile.lastName}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Date of Birth"
-                type="date"
-                name="dob"
-                value={profile.dob}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Gender"
-                name="gender"
-                value={profile.gender}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Phone"
-                name="phone"
-                value={profile.phone}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Occupation"
-                name="occupation"
-                value={profile.occupation}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Street Address"
-                name="streetAddr"
-                value={profile.streetAddr}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Country"
-                name="country"
-                value={profile.country}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="Zipcode"
-                name="zipcode"
-                value={profile.zipcode}
-                onChange={handleInputChange}
-                required
-              />
-              <MDBInput
-                label="City"
-                name="city"
-                value={profile.city}
-                onChange={handleInputChange}
-                required
-              />
-            </MDBModalBody>
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={() => setShowEditModal(false)}>
-                Close
-              </MDBBtn>
-              <MDBBtn onClick={handleSaveProfile}>Save changes</MDBBtn>
-            </MDBModalFooter>
-          </MDBModalContent>
-        </MDBModalDialog>
-      </MDBModal>
-    </MDBContainer>
+
+      {isModalOpen && (
+        <div className="modal" onClick={handleModalClick}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the modal background */}
+            <span className="close" onClick={closeModal}>&times;</span>
+            <h3>Edit Your Profile</h3>
+            <form onSubmit={handleUpdateProfile}>
+              <div>
+                <label>Profile URL:</label>
+                <input type="text" name="profileUrl" value={formData.profileUrl} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>First Name:</label>
+                <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Last Name:</label>
+                <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Date of Birth:</label>
+                <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Gender:</label>
+                <input type="text" name="gender" value={formData.gender} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Phone:</label>
+                <input type="text" name="phone" value={formData.phone} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Occupation:</label>
+                <input type="text" name="occupation" value={formData.occupation} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Street Address:</label>
+                <input type="text" name="streetAddr" value={formData.streetAddr} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Country:</label>
+                <input type="text" name="country" value={formData.country} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>Zipcode:</label>
+                <input type="text" name="zipcode" value={formData.zipcode} onChange={handleInputChange} required />
+              </div>
+              <div>
+                <label>City:</label>
+                <input type="text" name="city" value={formData.city} onChange={handleInputChange} required />
+              </div>
+              <button type="submit">Update Profile</button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Profile;
+export default UserProfile;

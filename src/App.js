@@ -31,6 +31,7 @@ import { AdminLayout } from "./Components/Admin/navbars/AdminLayout";
 import { AdminFilterList } from "./Components/Admin/insurancepages/AdminFilterList";
 import { DetailedPolicy } from "./Components/Admin/insurancepages/DetailedPolicy";
 import PaymentSuccess from "./Components/Pages/PaymentSuccess";
+import Profile from "./Components/Navbar/Profile";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -57,7 +58,7 @@ function App() {
             <Route path="InsuranceDetails" element={<DetailedInsurance />} />
             <Route path="FilteredList/:no" element={<FilteredInsurance />} />
             <Route path="DetailedVehicle" element={<DetailedVehicle />} />
-
+            <Route path="Profile" element={<Profile/>}/>
             <Route path="DisplayVehicle" element={<DisplyVehicles />} />
           </Route>
 
