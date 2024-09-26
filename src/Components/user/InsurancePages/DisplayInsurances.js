@@ -6,12 +6,18 @@ import { FilterInsurance } from "./FilterInsurance";
 import { SideNav } from "../../Navbar/SideNav";
 import "./DisplayInsurances.css";
 import { loadStripe } from "@stripe/stripe-js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal, Button } from "bootstrap";
+
 export const DisplayInsurances = () => {
   const stripePromise = loadStripe(
     "pk_test_51NMZV9SHrtHmWHnMzKN5XqHLYU5toN8BRmxrzHDV0bWq0dkW6av4nLXaOEEDVrLj1ugU1IXVi1BdiOcNVebL2vbH009nGIs1xp"
   );
   const [insuranceData, setInsuranceData] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedInsurance, setSelectedInsurance] = useState(null);
+ 
 
   const token = localStorage.getItem("Auth-Token");
   const nav = useNavigate();
@@ -121,6 +127,17 @@ export const DisplayInsurances = () => {
       console.error("Error creating checkout session:", err);
     }
   };
+  
+  //Function to open the modal and set the selected insurance
+  const handleShowDetails = (insurance) => {
+    setSelectedInsurance(insurance);
+    setShowModal(true);
+  };
+
+  //Function to close the modal
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <div>
@@ -143,6 +160,25 @@ export const DisplayInsurances = () => {
               <p className="card-text">
                 Coverage Amount: {item.coverageAmount}
               </p>
+
+
+              <button
+                style={{
+                  backgroundColor: "#9A1750",
+                  color: "#fff",
+                  padding: "10px 20px",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontSize: "16px",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  transition: "all 0.3s ease",
+                }}
+                onClick={() => handleShowDetails(item)}
+              >
+                Show Details
+              </button>
+
               {item.status == 0 && (
                 <p className="card-text">
                   Your Quota hasn't been viewed by the admin yet
@@ -231,6 +267,28 @@ export const DisplayInsurances = () => {
           </div>
         </div>
       ))}
+
+      {/* Modal for showing insurance details */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Insurance Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedInsurance && (
+            <div>
+              <h5>Policy ID: {selectedInsurance.policyID}</h5>
+              <p>Coverage Type: {selectedInsurance.coverageType}</p>
+              <p>Coverage Amount: {selectedInsurance.coverageAmount}</p>
+              <p>Status: {selectedInsurance.status}</p>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
