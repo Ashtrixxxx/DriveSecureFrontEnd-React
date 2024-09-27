@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import "./insurance.css";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // Use correct import for jwtDecode
 
 export default function InsuranceDetailsForm({ onSubmit, vehicle }) {
   // State to hold form values
@@ -62,7 +62,6 @@ export default function InsuranceDetailsForm({ onSubmit, vehicle }) {
   
     return (totalInsuranceAmount).toFixed(2); // Return amount in Indian Rupees
   };
-  
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -92,17 +91,23 @@ export default function InsuranceDetailsForm({ onSubmit, vehicle }) {
       <form onSubmit={handleSubmit}>
         <MDBRow className="mb-4">
           <MDBCol>
-            <MDBInput
+            <label htmlFor="coverageType">Coverage Type</label>
+            <select
               id="coverageType"
-              label="Coverage Type"
               name="coverageType"
+              className="form-control"
               value={formData.coverageType}
               onChange={handleChange}
-              invalid={!!errors.coverageType}
-              validationError={errors.coverageType}
-            />
+            >
+              <option value="">Select Coverage Type</option>
+              <option value="self">Self</option>
+              <option value="thirdParty">Third Party</option>
+              <option value="theft">Theft</option>
+            </select>
+            {errors.coverageType && <div className="text-danger">{errors.coverageType}</div>}
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
           <MDBCol>
             <MDBInput
