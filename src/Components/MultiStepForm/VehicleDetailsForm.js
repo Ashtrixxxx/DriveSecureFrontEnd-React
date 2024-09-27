@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {jwtDecode} from "jwt-decode"
-import { MDBRow, MDBCol, MDBInput, MDBBtn, MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem } from "mdb-react-ui-kit";
+import { jwtDecode } from "jwt-decode";
+import { MDBRow, MDBCol, MDBInput } from "mdb-react-ui-kit";
 import "./forms.css";
 
 // Define validation schema using yup
@@ -26,25 +26,12 @@ const schema = yup.object({
   registrationDate: yup.date().required("Registration Date is required").max(new Date(), "Date cannot be in the future"),
 }).required();
 
-export default function VehicleDetailsForm({ onSubmit,type }) {
-
-
+export default function VehicleDetailsForm({ onSubmit, type }) {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm({
     resolver: yupResolver(schema),
   });
 
-  // Local state to manage the selected value
-  const [selectedFuelType, setSelectedFuelType] = useState("");
-
-  // Handle dropdown selection
-  const handleDropdownChange = (value) => {
-    setSelectedFuelType(value);
-    setValue("fuelType", value); // Update react-hook-form value
-  };
-
-  // Handle form submission
   const onFormSubmit = (data) => {
-
     const decodedToken = jwtDecode(localStorage.getItem("Auth-Token"));
     const userId = decodedToken.nameid; // Extract userId from JWT token
 
@@ -83,6 +70,7 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
             />
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
           <MDBCol>
             <MDBInput
@@ -126,18 +114,23 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
               validationError={errors.numberOfSeats?.message}
             />
           </MDBCol>
+
+          {/* Replaced Fuel Type Dropdown with select */}
           <MDBCol>
-            <MDBDropdown>
-              <MDBDropdownToggle>{selectedFuelType || "Select Fuel Type"}</MDBDropdownToggle>
-              <MDBDropdownMenu>
-                <MDBDropdownItem onClick={() => handleDropdownChange("petrol")}>Petrol</MDBDropdownItem>
-                <MDBDropdownItem onClick={() => handleDropdownChange("diesel")}>Diesel</MDBDropdownItem>
-                <MDBDropdownItem onClick={() => handleDropdownChange("electric")}>Electric</MDBDropdownItem>
-                {/* Add more options as needed */}
-              </MDBDropdownMenu>
-            </MDBDropdown>
-            {errors.fuelType && <div className="error">{errors.fuelType.message}</div>}
+            <label htmlFor="fuelType">Fuel Type</label>
+            <select
+              id="fuelType"
+              className="form-control"
+              {...register("fuelType")}
+            >
+              <option value="">Select Fuel Type</option>
+              <option value="petrol">Petrol</option>
+              <option value="diesel">Diesel</option>
+              <option value="electric">Electric</option>
+            </select>
+            {errors.fuelType && <div className="text-danger">{errors.fuelType.message}</div>}
           </MDBCol>
+
           <MDBCol>
             <MDBInput
               wrapperClass="mb-4"
@@ -159,6 +152,7 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
             />
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
           <MDBCol>
             <MDBInput
@@ -170,18 +164,22 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
               validationError={errors.vehicleCondition?.message}
             />
           </MDBCol>
+
+          {/* Replaced Service History Dropdown with select */}
           <MDBCol>
-            <MDBInput
-              wrapperClass="mb-4"
-              textarea
+            <label htmlFor="serviceHistory">Service History</label>
+            <select
               id="serviceHistory"
-              rows={4}
-              label="Service History"
+              className="form-control"
               {...register("serviceHistory")}
-              invalid={!!errors.serviceHistory}
-              validationError={errors.serviceHistory?.message}
-            />
+            >
+              <option value="">Select Service History</option>
+              <option value="good">Good</option>
+              <option value="bad">Bad</option>
+            </select>
+            {errors.serviceHistory && <div className="text-danger">{errors.serviceHistory.message}</div>}
           </MDBCol>
+
           <MDBCol>
             <MDBInput
               wrapperClass="mb-4"
@@ -194,6 +192,7 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
             />
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
           <MDBCol>
             <MDBInput
@@ -227,6 +226,7 @@ export default function VehicleDetailsForm({ onSubmit,type }) {
             />
           </MDBCol>
         </MDBRow>
+
         <MDBInput
           wrapperClass="mb-4"
           type="date"

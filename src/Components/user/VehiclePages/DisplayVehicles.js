@@ -61,6 +61,7 @@ export const DisplyVehicles = () => {
   const handleCloseModal = () => {
     setShowModal(false); // Hide the modal
   };
+console.log(vehicleData);
 
 
   return (
@@ -76,12 +77,12 @@ export const DisplyVehicles = () => {
               <p className="card-text">
                  List Price: {item.listPrice}
               </p>
-              <a
+              <button
                 className="btn btn-primary"
                 onClick={() => handleShowDetails(item)} // Trigger the modal
               >
                 Show Details
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -97,6 +98,12 @@ export const DisplyVehicles = () => {
               <h5>Vehicle ID: {selectedVehicle.vehicleId}</h5>
               <p>Vehicle Type: {selectedVehicle.vehicleType}</p>
               <p>List Price: {selectedVehicle.listPrice}</p>
+              <p>Last Service date: {selectedVehicle.lastServiceDate}</p>
+              <p>Service history: {selectedVehicle.serviceHistory}</p>
+              <p>Identification Number: {selectedVehicle.vehicleIdentificationNumber}</p>
+
+
+
               
             </div>
           )}
