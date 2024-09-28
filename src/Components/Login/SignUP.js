@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const SignUP = () => {
   const nav = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [userData, setUserData] = useState({
     UserName: "",
     Email: "",
@@ -48,6 +50,11 @@ const SignUP = () => {
       toast.success("Signup successful! Please log in.");
       nav("/login");
     } catch (error) {
+      if (error.response && error.response.data.message) {
+        setErrorMessage(error.response.data.message);  // Show the error message from the backend
+      } else {
+        setErrorMessage('An unexpected error occurred.');
+      }
       console.log(error);
     }
   };
@@ -101,6 +108,8 @@ const SignUP = () => {
                     Sign Up
                   </button>
                 </form>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Show error message */}
+
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
