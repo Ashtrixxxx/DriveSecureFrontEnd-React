@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import "./ResetPassword.css";
 
 export const ResetPassword = () => {
   const [pass, setPass] = useState("");
@@ -36,19 +37,26 @@ export const ResetPassword = () => {
       nav("/login")
       console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error("Error resetting password:", error);
+      alert("Failed to reset password. Please try again.");
     }
   };
 
   return (
-    <div>
+    <div className="reset-container">
+    <h2>Reset Your Password</h2>
+    <form className="reset-form">
       <input
+        className="reset-input"
         type="password"
-        onChange={(event) => {
-          setPass(event.target.value);
-        }}
+        placeholder="Enter your new password"
+        onChange={(event) => setPass(event.target.value)}
+        value={pass} // Display the current password state in the input
       />
-      <button onClick={handleReset}>Reset My password</button>
-    </div>
-  );
+      <button className="reset-button" onClick={handleReset}>
+        Reset My Password
+      </button>
+    </form>
+  </div>
+);
 };
