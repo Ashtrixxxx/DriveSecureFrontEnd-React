@@ -32,6 +32,7 @@ import { AdminFilterList } from "./Components/Admin/insurancepages/AdminFilterLi
 import { DetailedPolicy } from "./Components/Admin/insurancepages/DetailedPolicy";
 import PaymentSuccess from "./Components/Pages/PaymentSuccess";
 import Profile from "./Components/Navbar/Profile";
+import { ResetPassword } from "./Components/Pages/ResetPassword";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/Signup" element={<SignUP />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/reset-password" element={<ResetPassword/>}/>
           <Route path="/user/*" element={<UserLayout />}>
             <Route path="DisplayInsurances" element={<DisplayInsurances />} />
             <Route path="InsuranceDetails" element={<DetailedInsurance />} />

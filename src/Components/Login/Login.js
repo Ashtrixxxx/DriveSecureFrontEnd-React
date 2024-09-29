@@ -72,20 +72,23 @@ const Login = () => {
   const handlePasswordReset = () => {
     setIsResetAvailable(!isResetAvailable);
     console.log(isResetAvailable);
-    
   };
   console.log(isResetAvailable);
 
-  const handleResetEmail =async ()=>{
+  const handleResetEmail = async () => {
     console.log(email);
-    
-      try {
-        await axios.post("https://localhost:7063/api/Password/ForgotPassword/forgot-password",{email} );
-        alert("Password reset email sent!");
-      } catch (error) {
-        console.error(error);
-      }
-  }
+
+    try {
+      const res = await axios.post(
+        "https://localhost:7063/api/User/SendPasswordResetEmail",
+       {email}
+      );
+      console.log(res.data);
+      alert("Password reset email sent!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <MDBContainer>
@@ -123,10 +126,9 @@ const Login = () => {
                   />
                 </div>
                 <button type="submit" className="login-button">
-              Login
-            </button>   
+                  Login
+                </button>
               </div>
-              
             ) : (
               <div className="form-group">
                 <label>Reset Email</label>
@@ -137,10 +139,12 @@ const Login = () => {
                   placeholder="Enter your Email"
                   required
                 />
-                <button type="button" onClick={handleResetEmail}>Sent reset email</button>
+                <button type="button" onClick={handleResetEmail}>
+                  Sent reset email
+                </button>
               </div>
             )}
-            
+
             <p className="text-center">
               Forgot Password?{" "}
               <a onClick={handlePasswordReset}>Reset Password</a>{" "}
