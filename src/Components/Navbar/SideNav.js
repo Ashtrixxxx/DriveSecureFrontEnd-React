@@ -111,6 +111,14 @@ export const SideNav = () => {
                   <AccountCircleOutlinedIcon /> Profile
                 </MDBNavbarLink>
               </MDBNavbarItem>
+              <MDBNavbarItem>
+                <MDBNavbarLink
+                  href="/user/faq"
+                  style={{ color: "#fff", marginLeft: "15px" }}
+                >
+                  <AccountCircleOutlinedIcon /> FAQ 
+                </MDBNavbarLink>
+              </MDBNavbarItem>
             </MDBNavbarNav>
             <div
               style={{

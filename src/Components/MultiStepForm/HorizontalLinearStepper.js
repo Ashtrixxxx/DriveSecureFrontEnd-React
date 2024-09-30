@@ -131,7 +131,16 @@ export default function HorizontalLinearStepper(type) {
       console.log(response);
       nav("/");
     } catch (error) {
-      console.log(error.response ? error.response.data : error.message);
+      if (
+        error.response &&
+        (error.response.status === 400 || error.response.status === 401)
+      ) {
+        // If the error is 400 or 401, navigate to 'Not Authorized' page
+        nav("/not-authorized");
+      } else {
+        console.log("An error occurred", error);
+      }
+    
     }
   };
 

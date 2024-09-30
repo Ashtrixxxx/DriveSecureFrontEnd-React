@@ -50,12 +50,22 @@ const Login = () => {
       const userId = decodedToken.nameid;
       console.log(userId);
     } catch (error) {
-      if (
+      const errorMessage = error.response.data.message;
+console.log(errorMessage);
+
+
+ if(errorMessage == "Invalid user credentials"){
+  alert("No such user Found")
+}
+      else if (
         error.response &&
         (error.response.status === 400 || error.response.status === 401)
       ) {
         nav("/not-authorized");
-      } else {
+      } 
+     
+
+      else {
         console.log("An error occurred", error);
       }
       console.error("Error:", error);

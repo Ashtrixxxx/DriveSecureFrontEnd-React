@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const PaymentSuccess = () => {
 
     const paymentData = JSON.parse(sessionStorage.getItem('paymentData'));
 console.log(paymentData);
-
+     const nav = useNavigate()
+     
     const location = useLocation();
     const { state } = location; // Assuming you pass relevant state
     const token = localStorage.getItem("Auth-Token");
@@ -51,6 +52,7 @@ console.log(paymentData);
         <div>
             <h1>Payment Successful!</h1>
             <p>Thank you for your payment.</p>
+            <a href='/user'>GO back to dashboard page</a>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 import './Profile.css'; // Import your CSS styles
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -22,7 +23,7 @@ const UserProfile = () => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
-
+const nav = useNavigate();
   useEffect(() => {
     setToken(localStorage.getItem("Auth-Token"));
 
@@ -96,8 +97,16 @@ const UserProfile = () => {
       setProfile(formData);
       setIsModalOpen(false); // Close modal after update
     } catch (error) {
-      console.error("Error updating profile", error);
-    }
+      if (
+        error.response &&
+        (error.response.status === 400 || error.response.status === 401)
+      ) {
+        // If the error is 400 or 401, navigate to 'Not Authorized' page
+        nav("/not-authorized");
+      } else {
+        console.log("An error occurred", error);
+      }
+  }
   };
 
   const openModal = () => {

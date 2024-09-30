@@ -62,6 +62,7 @@ function App() {
             <Route path="DetailedVehicle" element={<DetailedVehicle />} />
             <Route path="Profile" element={<Profile/>}/>
             <Route path="DisplayVehicle" element={<DisplyVehicles />} />
+            <Route path="faq" />
           </Route>
 
           <Route path="/insurance/:VehicleType" element={<FormPage />} />
