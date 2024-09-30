@@ -17,6 +17,8 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline"; // Icon for FAQ
+
 export const SideNav = () => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -111,15 +113,19 @@ export const SideNav = () => {
                   <AccountCircleOutlinedIcon /> Profile
                 </MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem>
+
+            
+             {/* New FAQ Link */}
+             <MDBNavbarItem>
                 <MDBNavbarLink
                   href="/user/faq"
                   style={{ color: "#fff", marginLeft: "15px" }}
                 >
-                  <AccountCircleOutlinedIcon /> FAQ 
+                  <HelpOutlineIcon /> Motor Insurance FAQs
                 </MDBNavbarLink>
               </MDBNavbarItem>
-            </MDBNavbarNav>
+             </MDBNavbarNav>
+        
             <div
               style={{
                 position: "absolute",

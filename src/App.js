@@ -33,6 +33,7 @@ import { DetailedPolicy } from "./Components/Admin/insurancepages/DetailedPolicy
 import PaymentSuccess from "./Components/Pages/PaymentSuccess";
 import Profile from "./Components/Navbar/Profile";
 import { ResetPassword } from "./Components/Pages/ResetPassword";
+import MotorInsuranceFAQ from "./Components/Navbar/MotorInsuranceFAQ";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -62,7 +63,7 @@ function App() {
             <Route path="DetailedVehicle" element={<DetailedVehicle />} />
             <Route path="Profile" element={<Profile/>}/>
             <Route path="DisplayVehicle" element={<DisplyVehicles />} />
-            <Route path="faq" />
+            <Route path="faq" element={<MotorInsuranceFAQ/>}/>
           </Route>
 
           <Route path="/insurance/:VehicleType" element={<FormPage />} />
