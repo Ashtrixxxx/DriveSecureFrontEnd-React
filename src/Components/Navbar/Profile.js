@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
-import './Profile.css'; // Import your CSS styles
+import {jwtDecode} from "jwt-decode"; // corrected the import
+import './Profile.css'; // Make sure your modal CSS is correct
 import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [formData, setFormData] = useState({
+    userId : userId,
     profileUrl: "",
     firstName: "",
     lastName: "",
@@ -21,9 +23,9 @@ const UserProfile = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
-const nav = useNavigate();
+  const nav = useNavigate();
+
   useEffect(() => {
     setToken(localStorage.getItem("Auth-Token"));
 
@@ -36,6 +38,16 @@ const nav = useNavigate();
       }
     }
   }, [token]);
+
+  // Update formData when userId is available
+  useEffect(() => {
+    if (userId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        userId: userId
+      }));
+    }
+  }, [userId]);
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -60,7 +72,7 @@ const nav = useNavigate();
     if (userId) {
       fetchProfileData();
     }
-  }, [userId]);
+  }, [userId, token]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -106,7 +118,7 @@ const nav = useNavigate();
       } else {
         console.log("An error occurred", error);
       }
-  }
+    }
   };
 
   const openModal = () => {
@@ -118,8 +130,7 @@ const nav = useNavigate();
   };
 
   const handleModalClick = (e) => {
-    // Close modal when clicking on the modal background (overlay)
-    if (e.target.className === "modal") {
+    if (e.target.classList.contains("modal")) {
       closeModal();
     }
   };
@@ -138,7 +149,7 @@ const nav = useNavigate();
           <p><strong>Phone:</strong> {profile.phone}</p>
           <p><strong>Occupation:</strong> {profile.occupation}</p>
           <p><strong>Address:</strong> {profile.streetAddr}, {profile.city}, {profile.country} - {profile.zipcode}</p>
-          <button onClick={openModal}>Edit Profile</button>
+          <button onClick={openModal}>Edit Profile</button> {/* Make sure this calls openModal */}
         </div>
       ) : (
         <form onSubmit={handleCreateProfile}>
@@ -191,12 +202,12 @@ const nav = useNavigate();
         </form>
       )}
 
-      {isModalOpen && (
+      {/* Modal */}
+      {isModalOpen && (  // If isModalOpen is true, show modal
         <div className="modal" onClick={handleModalClick}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* Prevent click event from bubbling up to the modal background */}
-            <span className="close" onClick={closeModal}>&times;</span>
-            <h3>Edit Your Profile</h3>
+          <div className="modal-content">
             <form onSubmit={handleUpdateProfile}>
+              <h3>Edit Profile</h3>
               <div>
                 <label>Profile URL:</label>
                 <input type="text" name="profileUrl" value={formData.profileUrl} onChange={handleInputChange} required />
@@ -242,6 +253,7 @@ const nav = useNavigate();
                 <input type="text" name="city" value={formData.city} onChange={handleInputChange} required />
               </div>
               <button type="submit">Update Profile</button>
+              <button type="button" onClick={closeModal}>Cancel</button>
             </form>
           </div>
         </div>

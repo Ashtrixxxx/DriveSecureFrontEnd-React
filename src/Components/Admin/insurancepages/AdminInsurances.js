@@ -110,12 +110,12 @@ export const AdminInsurances = () => {
               </p>
               {item.status == 0 && (
                 <p className="card-text">
-                  Your Quota hasn't been viewed by the admin yet
+                  This Quota hasn't been viewed by the admin yet
                 </p>
               )}
               {item.status == 1 && (
                 <p className="card-text">
-                  Your Quota has been viewed by the admin
+                  This Quota has been viewed by the admin
                 </p>
               )}
               {item.status == 2 && (
@@ -123,8 +123,12 @@ export const AdminInsurances = () => {
               )}
               {item.status == 3 && (
                 <p className="card-text">
-                  Your Quota has been rejected for a set of reasons pls check
-                  the mail
+                  This Quota has been rejected for a set of reasons 
+                  </p>
+              )}
+              {item.status == 4 && (
+                <p className="card-text">
+                 This Quota has been accepted and payment has been done
                 </p>
               )}
               <a
