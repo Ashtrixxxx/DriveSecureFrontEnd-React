@@ -67,6 +67,8 @@ export const DisplayInsurances = () => {
   const handlePayment = async (item) => {
     console.log(item.coverageAmount);
 
+    
+    
     try {
       // Prepare the request body according to the expected format
       const requestBody = {
@@ -77,7 +79,7 @@ export const DisplayInsurances = () => {
               product_data: {
                 name: "Insurance", // Product name
               },
-              unitAmount: item.coverageAmount * 100, // Price in paise (1 INR = 100 paise)
+              unitAmount: Math.round(item.coverageAmount * 100), // Price in paise (1 INR = 100 paise)
             },
             quantity: 1, // Set quantity
           },
@@ -93,6 +95,8 @@ export const DisplayInsurances = () => {
         },
       };
 
+      console.log(requestBody);
+      
       const sessionResponse = await axios.post(
         "https://localhost:7063/api/Payments/create-checkout-session",
         requestBody, // Send the structured request body
