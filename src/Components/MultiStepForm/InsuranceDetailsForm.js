@@ -129,6 +129,7 @@ export default function InsuranceDetailsForm({ onSubmit, vehicle }) {
               id="coverageEndDate"
               label="Coverage End Date"
               name="coverageEndDate"
+              min={new Date().toISOString().split("T")[0]}
               value={formData.coverageEndDate}
               onChange={handleChange}
               invalid={!!errors.coverageEndDate}

@@ -134,7 +134,7 @@ export const SideNav = () => {
                 backgroundColor: "#9A1750",
               }}
             >
-              <MDBBtn className="logout-btn"
+              <button className="logout-btn"
                 backgroundColor="#9A1750" 
                 block
                 onClick={() => {
@@ -143,7 +143,7 @@ export const SideNav = () => {
                 }}
               >
                 <LogoutOutlinedIcon /> Logout
-              </MDBBtn>
+              </button>
             </div>
           </>
         )}

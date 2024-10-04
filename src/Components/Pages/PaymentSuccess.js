@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-
+import img from "../../Assets/Successful purchase-pana.png"
 const PaymentSuccess = () => {
 
     const paymentData = JSON.parse(sessionStorage.getItem('paymentData'));
@@ -50,9 +50,12 @@ console.log(paymentData);
 
     return (
         <div>
+            <center>
+            <img src={img}/>
             <h1>Payment Successful!</h1>
             <p>Thank you for your payment.</p>
             <a href='/user'>GO back to dashboard page</a>
+            </center>
         </div>
     );
 };

@@ -75,6 +75,7 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
           <MDBCol>
             <MDBInput
               wrapperClass="mb-4"
+              type="number"
               id="engineNumber"
               label="Engine Number"
               {...register("engineNumber")}
@@ -117,7 +118,6 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
 
           {/* Replaced Fuel Type Dropdown with select */}
           <MDBCol>
-            <label htmlFor="fuelType">Fuel Type</label>
             <select
               id="fuelType"
               className="form-control"
@@ -167,7 +167,6 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
 
           {/* Replaced Service History Dropdown with select */}
           <MDBCol>
-            <label htmlFor="serviceHistory">Service History</label>
             <select
               id="serviceHistory"
               className="form-control"
@@ -186,6 +185,7 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
               type="date"
               id="lastServiceDate"
               label="Last Service Date"
+              max={new Date().toISOString().split("T")[0]} 
               {...register("lastServiceDate")}
               invalid={!!errors.lastServiceDate}
               validationError={errors.lastServiceDate?.message}
@@ -198,6 +198,8 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
             <MDBInput
               wrapperClass="mb-4"
               id="vin"
+              type="number"
+
               label="Vehicle Identification Number"
               {...register("vin")}
               invalid={!!errors.vin}

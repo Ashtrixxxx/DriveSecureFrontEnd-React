@@ -76,7 +76,7 @@ export const AdminInsurances = () => {
           (error.response.status === 400 || error.response.status === 401)
         ) {
           // If the error is 400 or 401, navigate to 'Not Authorized' page
-          nav("/not-authorized");
+          nav("/admin");
         } else {
           console.log("An error occurred", error);
         }

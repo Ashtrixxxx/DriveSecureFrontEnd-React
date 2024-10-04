@@ -8,6 +8,7 @@ import "./DisplayInsurances.css";
 import { loadStripe } from "@stripe/stripe-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap"; // Use react-bootstrap's Modal and Button
+import img from "../../../Assets/No data-rafiki.png";
 
 export const DisplayInsurances = () => {
   const stripePromise = loadStripe(
@@ -17,8 +18,7 @@ export const DisplayInsurances = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedInsurance, setSelectedInsurance] = useState(null);
- 
-
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("Auth-Token");
   const nav = useNavigate();
 
@@ -33,6 +33,7 @@ export const DisplayInsurances = () => {
   }
 
   useEffect(() => {
+    setLoading(true);
     const fetchInsurances = async () => {
       try {
         const response = await axios.get(
@@ -45,6 +46,7 @@ export const DisplayInsurances = () => {
         );
         console.log(response.data);
         setInsuranceData(response.data);
+        setLoading(false);
       } catch (error) {
         if (
           error.response &&
@@ -62,13 +64,9 @@ export const DisplayInsurances = () => {
     fetchInsurances();
   }, []);
 
-  
-
   const handlePayment = async (item) => {
     console.log(item.coverageAmount);
 
-    
-    
     try {
       // Prepare the request body according to the expected format
       const requestBody = {
@@ -96,7 +94,7 @@ export const DisplayInsurances = () => {
       };
 
       console.log(requestBody);
-      
+
       const sessionResponse = await axios.post(
         "https://localhost:7063/api/Payments/create-checkout-session",
         requestBody, // Send the structured request body
@@ -114,15 +112,12 @@ export const DisplayInsurances = () => {
         PolicyID: item.policyID,
       };
 
-      sessionStorage.setItem('paymentData', JSON.stringify(paymentData));
-
+      sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
 
       const stripe = await stripePromise; // Await the Stripe object
       const { error } = await stripe.redirectToCheckout({
         sessionId: sessionResponse.data.sessionId,
       });
-     
-
 
       if (error) {
         console.error("Error during checkout:", error);
@@ -131,7 +126,7 @@ export const DisplayInsurances = () => {
       console.error("Error creating checkout session:", err);
     }
   };
-  
+
   //Function to open the modal and set the selected insurance
   const handleShowDetails = (insurance) => {
     setSelectedInsurance(insurance);
@@ -142,10 +137,30 @@ export const DisplayInsurances = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-console.log(insuranceData);
+  console.log(insuranceData);
+
+  if (insuranceData.length == 0) {
+    return (
+      <div>
+        <center>
+          <img
+            src={img}
+            style={{ width: "700px", height: "700px" }}
+            alt="Not Found"
+          />
+        </center>
+      </div>
+    );
+  }
 
   return (
     <div>
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div> {/* A simple spinner */}
+          <p>Uploading, please wait...</p>
+        </div>
+      )}
       <button
         onClick={() => {
           setShowFilter(!showFilter);
@@ -156,7 +171,6 @@ console.log(insuranceData);
       </button>
       {showFilter && <FilterInsurance list={insuranceData} />}
       {insuranceData.map((item, index) => (
-      
         <div key={index}>
           <div className="card">
             <div className="card-header">Policies</div>
@@ -166,10 +180,6 @@ console.log(insuranceData);
               <p className="card-text">
                 Coverage Amount: {item.coverageAmount}
               </p>
-
-
-
-             
 
               {item.status == 0 && (
                 <p className="card-text">
@@ -202,23 +212,6 @@ console.log(insuranceData);
                   gap: "10px",
                 }}
               >
-                 <button
-                style={{
-                  backgroundColor: "#9A1750",
-                  color: "#fff",
-                  padding: "10px 20px",
-                  border: "none",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                  transition: "all 0.3s ease",
-                }}
-                onClick={() => handleShowDetails(item)}
-              >
-                Show Details
-              </button>
-                {false &&
                 <button
                   style={{
                     backgroundColor: "#9A1750",
@@ -231,22 +224,39 @@ console.log(insuranceData);
                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                     transition: "all 0.3s ease",
                   }}
-                  className="btn btn-primary"
-                  onClick={() => {
-                    nav("/user/InsuranceDetails", {
-                      state: { insurance: item },
-                    });
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.target.style.backgroundColor = "#BB3671")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.target.style.backgroundColor = "#9A1750")
-                  }
+                  onClick={() => handleShowDetails(item)}
                 >
                   Show Details
                 </button>
-}
+                {false && (
+                  <button
+                    style={{
+                      backgroundColor: "#9A1750",
+                      color: "#fff",
+                      padding: "10px 20px",
+                      border: "none",
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      fontSize: "16px",
+                      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                      transition: "all 0.3s ease",
+                    }}
+                    className="btn btn-primary"
+                    onClick={() => {
+                      nav("/user/InsuranceDetails", {
+                        state: { insurance: item },
+                      });
+                    }}
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = "#BB3671")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = "#9A1750")
+                    }
+                  >
+                    Show Details
+                  </button>
+                )}
                 {item.status === 2 && (
                   <button
                     style={{
@@ -278,7 +288,12 @@ console.log(insuranceData);
       ))}
 
       {/* Modal for showing insurance details */}
-      <Modal show={showModal} onHide={handleCloseModal} backdrop={true} keyboard={true}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        backdrop={true}
+        keyboard={true}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Insurance Details</Modal.Title>
         </Modal.Header>
@@ -289,9 +304,12 @@ console.log(insuranceData);
               <p>Coverage Type: {selectedInsurance.coverageType}</p>
               <p>Coverage Amount: {selectedInsurance.coverageAmount}</p>
               <p>Status: {selectedInsurance.status}</p>
-              <p className="card-text">Coverage Start Date: {selectedInsurance.coverageStartDate}</p>
-              <p className="card-text">Coverage End Date: {selectedInsurance.coverageEndDate}</p>
-
+              <p className="card-text">
+                Coverage Start Date: {selectedInsurance.coverageStartDate}
+              </p>
+              <p className="card-text">
+                Coverage End Date: {selectedInsurance.coverageEndDate}
+              </p>
             </div>
           )}
         </Modal.Body>

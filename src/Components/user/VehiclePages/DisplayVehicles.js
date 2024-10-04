@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../InsurancePages/DisplayInsurances.css"
 import { Modal, Button } from "react-bootstrap"; 
+import img from "../../../Assets/No data-rafiki.png";
 
 
 export const DisplyVehicles = () => {
@@ -63,6 +64,19 @@ export const DisplyVehicles = () => {
   };
 console.log(vehicleData);
 
+if(vehicleData.length == 0){
+  return (
+    <div>
+      <center>
+        <img
+          src={img}
+          style={{ width: "700px", height: "700px" }}
+          alt="Not Found"
+        />
+      </center>
+    </div>
+  );
+}
 
   return (
     <div  >

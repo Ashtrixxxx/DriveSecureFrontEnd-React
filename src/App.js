@@ -34,6 +34,7 @@ import PaymentSuccess from "./Components/Pages/PaymentSuccess";
 import Profile from "./Components/Navbar/Profile";
 import { ResetPassword } from "./Components/Pages/ResetPassword";
 import MotorInsuranceFAQ from "./Components/Navbar/MotorInsuranceFAQ";
+import PageNotFound from "./Components/Pages/PageNotFound";
 axios.defaults.baseURL = "http://localhost:7063";
 axios.defaults.withCredentials = true;
 function App() {
@@ -41,38 +42,36 @@ function App() {
     <div>
       <Router>
         <Routes>
-        
-
+          {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard/*" element={<AdminLayout />}>
-          <Route path="Insurances" element={<AdminInsurances />}/>
-          <Route path="AdminFilterList/:no" element={<AdminFilterList/>}/>
-          <Route path="DetailedPolicy" element={<DetailedPolicy/>}/>
+            <Route path="Insurances" element={<AdminInsurances />} />
+            <Route path="AdminFilterList/:no" element={<AdminFilterList />} />
+            <Route path="DetailedPolicy" element={<DetailedPolicy />} />
           </Route>
-        </Routes>
 
-        <Routes>
+          {/* User Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/Signup" element={<SignUP />} />
           <Route path="/" element={<HomePage />} />
-          <Route path="/reset-password" element={<ResetPassword/>}/>
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/user/*" element={<UserLayout />}>
             <Route path="DisplayInsurances" element={<DisplayInsurances />} />
             <Route path="InsuranceDetails" element={<DetailedInsurance />} />
             <Route path="FilteredList/:no" element={<FilteredInsurance />} />
             <Route path="DetailedVehicle" element={<DetailedVehicle />} />
-            <Route path="Profile" element={<Profile/>}/>
+            <Route path="Profile" element={<Profile />} />
             <Route path="DisplayVehicle" element={<DisplyVehicles />} />
-            <Route path="faq" element={<MotorInsuranceFAQ/>}/>
+            <Route path="faq" element={<MotorInsuranceFAQ />} />
           </Route>
 
           <Route path="/insurance/:VehicleType" element={<FormPage />} />
-          {/* <Route path="/user/DisplayInsurances" element={<DisplayInsurances/>}/>
-        <Route path="/user/InsuranceDetails" element={<DetailedInsurance/>}/>
-        <Route path="/user/FilteredList/:no" element={<FilteredInsurance />}/> */}
           <Route path="/not-authorized" element={<NotAuthorizedPages />} />
-          <Route path="/paymentsuccess" element={<PaymentSuccess/>}/>
+          <Route path="/paymentsuccess" element={<PaymentSuccess />} />
           <Route path="/user/dashboard" element={<SideNav />} />
+
+          {/* Catch-all route for undefined URLs (404 Page) */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </div>

@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
+import "./Support.css"
 // Define validation schema using yup
 const schema = yup.object({
   addressProof: yup.mixed().required("Address Proof is required"),
@@ -21,6 +21,9 @@ const SupportDetailsForm = ({ onSubmit }) => {
   // State to hold uploaded file URLs
   const [addressProofUrl, setAddressProofUrl] = useState("");
   const [rcProofUrl, setRcProofUrl] = useState("");
+  
+  // Loading state
+  const [loading, setLoading] = useState(false);
 
   // Handle file upload and form submission
   const onFormSubmit = async () => {
@@ -41,6 +44,8 @@ const SupportDetailsForm = ({ onSubmit }) => {
   const handleFileChange = async (event, type) => {
     const file = event.target.files[0]; // Get the selected file
     if (!file) return;
+
+    setLoading(true); // Start loading
 
     // Create FormData to send the file
     const formData = new FormData();
@@ -71,11 +76,19 @@ const SupportDetailsForm = ({ onSubmit }) => {
 
     } catch (error) {
       console.error("Error uploading file:", error);
+    } finally {
+      setLoading(false); // Stop loading when upload completes
     }
   };
 
   return (
     <div className="form-wrapper">
+      {loading && (
+        <div className="loading-overlay">
+          <div className="spinner"></div> {/* A simple spinner */}
+          <p>Uploading, please wait...</p>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <MDBRow className="mb-4">
           <MDBCol>
@@ -107,7 +120,7 @@ const SupportDetailsForm = ({ onSubmit }) => {
           </MDBCol>
         </MDBRow>
 
-        <MDBBtn type="submit" block>
+        <MDBBtn type="submit" block disabled={loading}>
           Submit Support Details
         </MDBBtn>
       </form>

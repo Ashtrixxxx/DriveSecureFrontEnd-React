@@ -90,7 +90,6 @@ const UserProfile = () => {
       });
       alert("Profile created successfully!");
       setProfile(formData);
-      setFormData({ profileUrl: "", firstName: "", lastName: "", dob: "", gender: "", phone: "", occupation: "", streetAddr: "", country: "", zipcode: "", city: "" });
     } catch (error) {
       console.error("Error creating profile", error);
     }
