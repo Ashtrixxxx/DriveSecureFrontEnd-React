@@ -233,6 +233,7 @@ export default function VehicleDetailsForm({ onSubmit, type }) {
           wrapperClass="mb-4"
           type="date"
           id="registrationDate"
+          max={new Date().toISOString().split("T")[0]} 
           label="Registration Date"
           {...register("registrationDate")}
           invalid={!!errors.registrationDate}
